@@ -17,6 +17,8 @@ use App\Infrastructure\Persistence\AccessToken\AccessTokenRepository;
 use App\Infrastructure\Persistence\AuthCode\AuthCodeRepository;
 use App\Infrastructure\Persistence\RefreshToken\RefreshTokenRepository;
 use Dotenv\Dotenv;
+use League\OAuth2\Server\Repositories\ClientRepositoryInterface;
+use League\OAuth2\Server\Repositories\ScopeRepositoryInterface;
 use Slim\Views\Twig;
 
 return function (ContainerBuilder $containerBuilder) {
@@ -35,7 +37,7 @@ return function (ContainerBuilder $containerBuilder) {
 
             return $logger;
         },
-        AuthorizationServer::class => function (ContainerInterface $c) {
+        PDO::class => function () {
             $dotenv = Dotenv::createImmutable(__DIR__ . '/../');
             $dotenv->load();
 
@@ -44,11 +46,18 @@ return function (ContainerBuilder $containerBuilder) {
             $user     = $_ENV["DB_USER"];
             $password = $_ENV["DB_PASSWORD"];
             $options  = array();
-            $pdo = new PDO($server, $user, $password, $options);
-
+            return new PDO($server, $user, $password, $options);
+        },
+        ClientRepositoryInterface::class => function (ContainerInterface $c) {
+            $pdo = $c->get(PDO::class);
+            return new ClientRepository($pdo);
+        },
+        ScopeRepositoryInterface::class => function (ContainerInterface $c) {
+            $pdo = $c->get(PDO::class);
+            return new ScopeRepository($pdo);
+        },
+        AuthorizationServer::class => function (ContainerInterface $c) {
             // Init our repositories
-            $clientRepository = new ClientRepository($pdo);
-            $scopeRepository = new ScopeRepository($pdo);
             $accessTokenRepository = new AccessTokenRepository();
             $authCodeRepository = new AuthCodeRepository();
             $refreshTokenRepository = new RefreshTokenRepository();
@@ -57,9 +66,9 @@ return function (ContainerBuilder $containerBuilder) {
 
             // Setup the authorization server
             $server = new AuthorizationServer(
-                $clientRepository,
+                $c->get(ClientRepositoryInterface::class),
                 $accessTokenRepository,
-                $scopeRepository,
+                $c->get(ScopeRepositoryInterface::class),
                 $privateKeyPath,
                 $_ENV["ENC_KEY"]
             );

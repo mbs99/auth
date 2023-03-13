@@ -40,7 +40,7 @@ class LoginAction extends Action
         $client = $authRequest->getClient();
         $user = $this->userRepo->getUserEntityByUserCredentials(
             $username,
-            $password,
+            password_hash($password, PASSWORD_BCRYPT),
             '',
             $client
         );
@@ -49,7 +49,7 @@ class LoginAction extends Action
             $authRequest->setUser($user);
             $_SESSION['auth_request'] = $authRequest;
 
-            return $this->response->withHeader('Location', '/authorize');
+            return $this->response->withHeader('Location', '/scopes')->withStatus(302);
         }
 
         return $this->twig->render($this->response, 'login.html', ['error' => 'invalid credentials']);

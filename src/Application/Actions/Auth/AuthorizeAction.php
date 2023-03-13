@@ -44,7 +44,7 @@ class AuthorizeAction extends Action
 
             // Once the user has approved or denied the client update the status
             // (true = approved, false = denied)
-            $authRequest->setAuthorizationApproved(true);
+            $authRequest->setAuthorizationApproved($_SESSION['is_approved'] == 'true');
 
             // Return the HTTP redirect response
             return $this->authorizationServer->completeAuthorizationRequest($authRequest, $this->response);
