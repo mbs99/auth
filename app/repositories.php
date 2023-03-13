@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-use App\Domain\User\UserRepository;
-use App\Infrastructure\Persistence\User\InMemoryUserRepository;
+
 use DI\ContainerBuilder;
+use League\OAuth2\Server\Repositories\UserRepositoryInterface;
+use App\Infrastructure\Persistence\User\UserRepository;
 
 return function (ContainerBuilder $containerBuilder) {
-    // Here we map our UserRepository interface to its in memory implementation
     $containerBuilder->addDefinitions([
-        //UserRepository::class => \DI\autowire(InMemoryUserRepository::class),
+        UserRepositoryInterface::class => \DI\autowire(UserRepository::class),
     ]);
 };

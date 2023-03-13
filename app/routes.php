@@ -4,14 +4,11 @@ declare(strict_types=1);
 
 use App\Application\Actions\Auth\AccessTokenAction;
 use App\Application\Actions\Auth\AuthorizeAction;
-use App\Application\Actions\User\ListUsersAction;
-use App\Application\Actions\User\ViewUserAction;
+use App\Application\Actions\Login\LoginViewAction;
+use App\Application\Actions\Login\LoginAction;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\App;
-use Slim\Interfaces\RouteCollectorProxyInterface as Group;
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Message\ResponseInterface;
 
 return function (App $app) {
     $app->options(
@@ -43,4 +40,8 @@ return function (App $app) {
     $app->get('/authorize', AuthorizeAction::class);
 
     $app->post('/access_token', AccessTokenAction::class);
+
+    $app->post('/login', LoginAction::class);
+
+    $app->get('/login', LoginViewAction::class);
 };

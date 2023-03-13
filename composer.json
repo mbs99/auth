@@ -34,6 +34,7 @@
         "psr/http-message": "^1.0",
         "slim/psr7": "^1.5",
         "slim/slim": "^4.10",
+        "slim/twig-view": "^3.3",
         "vlucas/phpdotenv": "^5.5"
     },
     "require-dev": {

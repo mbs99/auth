@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\User;
+namespace App\Infrastructure\Persistence\User;
 
+use App\Domain\User\UserEntity;
 use League\OAuth2\Server\Entities\ClientEntityInterface;
 use League\OAuth2\Server\Repositories\UserRepositoryInterface;
 

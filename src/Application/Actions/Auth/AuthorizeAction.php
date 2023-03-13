@@ -33,10 +33,14 @@ class AuthorizeAction extends Action
         try {
             // Validate the HTTP request and return an AuthorizationRequest object.
             // The auth request object can be serialized into a user's session
-            $authRequest = $this->authorizationServer->validateAuthorizationRequest($this->request);
+            if (!array_key_exists('auth_request', $_SESSION)) {
+                $_SESSION['auth_request'] = $this->authorizationServer->validateAuthorizationRequest($this->request);
+            }
+            $authRequest = $_SESSION['auth_request'];
 
-            // Once the user has logged in set the user on the AuthorizationRequest
-            $authRequest->setUser(new UserEntity());
+            if (null == $authRequest->getUser()) {
+                return $this->response->withHeader('Location', '/login')->withStatus(302);
+            }
 
             // Once the user has approved or denied the client update the status
             // (true = approved, false = denied)
@@ -52,6 +56,5 @@ class AuthorizeAction extends Action
 
             return $this->response->withStatus(500)->withBody($body);
         }
-
     }
 }

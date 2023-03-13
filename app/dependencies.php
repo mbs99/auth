@@ -17,6 +17,7 @@ use App\Infrastructure\Persistence\AccessToken\AccessTokenRepository;
 use App\Infrastructure\Persistence\AuthCode\AuthCodeRepository;
 use App\Infrastructure\Persistence\RefreshToken\RefreshTokenRepository;
 use Dotenv\Dotenv;
+use Slim\Views\Twig;
 
 return function (ContainerBuilder $containerBuilder) {
     $containerBuilder->addDefinitions([
@@ -34,7 +35,7 @@ return function (ContainerBuilder $containerBuilder) {
 
             return $logger;
         },
-        AuthorizationServer::class => function () {
+        AuthorizationServer::class => function (ContainerInterface $c) {
             $dotenv = Dotenv::createImmutable(__DIR__ . '/../');
             $dotenv->load();
 
@@ -42,14 +43,12 @@ return function (ContainerBuilder $containerBuilder) {
             $server   = $_ENV["DB_URL"];
             $user     = $_ENV["DB_USER"];
             $password = $_ENV["DB_PASSWORD"];
-            $options  = array(
-                PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'
-            );
+            $options  = array();
             $pdo = new PDO($server, $user, $password, $options);
 
             // Init our repositories
             $clientRepository = new ClientRepository($pdo);
-            $scopeRepository = new ScopeRepository();
+            $scopeRepository = new ScopeRepository($pdo);
             $accessTokenRepository = new AccessTokenRepository();
             $authCodeRepository = new AuthCodeRepository();
             $refreshTokenRepository = new RefreshTokenRepository();
@@ -76,6 +75,9 @@ return function (ContainerBuilder $containerBuilder) {
             );
 
             return $server;
+        },
+        'view' => function () {
+            return Twig::create(__DIR__ . '/../templates', ['cache' => __DIR__ . '/../var/cache']);
         }
     ]);
 };
