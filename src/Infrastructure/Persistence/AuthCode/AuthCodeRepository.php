@@ -17,20 +17,41 @@ use PDO;
 
 class AuthCodeRepository implements AuthCodeRepositoryInterface
 {
+    private const TABLE = 'auth_codes';
+
+    private const CLIENTS_TABLE = 'clients';
     private PDO $pdo;
+
+    private string $insertQuery = 'INSERT INTO ' . self::TABLE . '(id, identifier, user_id, client_id, redirect_uri, is_revoked, expiry_timestamp)'
+        . ' VALUES (null, ?, ?, (SELECT id from clients where identifier = ?), ?, null, ?)';
+    private string $updateQuery = 'UPDATE ' . self::TABLE . ' SET is_revoked = 1  where identifier = ?';
 
     public function __construct(PDO $pdo)
     {
         $this->pdo = $pdo;
     }
 
-
     /**
      * {@inheritdoc}
      */
     public function persistNewAuthCode(AuthCodeEntityInterface $authCodeEntity)
     {
-        // Some logic to persist the auth code to a database
+        $stmt  = $this->pdo->prepare($this->insertQuery);
+        $identifier = $authCodeEntity->getIdentifier();
+        $stmt->bindParam(1, $identifier);
+        $userId = $authCodeEntity->getUserIdentifier();
+        $stmt->bindParam(2, $userId);
+        $clientId = $authCodeEntity->getClient()->getIdentifier();
+
+        $stmt->bindParam(3, $clientId);
+        $redirectUri = $authCodeEntity->getRedirectUri();
+        $stmt->bindParam(4, $redirectUri);
+        $expiryTimestamp = $authCodeEntity->getExpiryDateTime()->getTimestamp();
+        $stmt->bindParam(5, $expiryTimestamp);
+        if ($stmt->execute()) {
+            if ($stmt->rowCount() == 1) {
+            }
+        }
     }
 
     /**
@@ -38,7 +59,12 @@ class AuthCodeRepository implements AuthCodeRepositoryInterface
      */
     public function revokeAuthCode($codeId)
     {
-        // Some logic to revoke the auth code in a database
+        $stmt  = $this->pdo->prepare($this->updateQuery);
+        $stmt->bindParam(1, $codeId);
+        if ($stmt->execute()) {
+            if ($stmt->rowCount() == 1) {
+            }
+        }
     }
 
     /**
@@ -46,7 +72,16 @@ class AuthCodeRepository implements AuthCodeRepositoryInterface
      */
     public function isAuthCodeRevoked($codeId)
     {
-        return false; // The auth code has not been revoked
+        $query = 'SELECT is_revoked FROM ' . self::TABLE . ' where identifier = ?';
+        $stmt  = $this->pdo->prepare($query);
+        $stmt->bindParam(1, $codeId);
+        if ($stmt->execute()) {
+            if ($stmt->rowCount() == 1) {
+                $result = $stmt->fetch(PDO::FETCH_ASSOC);
+                return $result['is_revoked'] == true;
+            }
+        }
+        return true;
     }
 
     /**

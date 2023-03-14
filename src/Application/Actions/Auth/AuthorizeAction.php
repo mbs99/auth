@@ -47,10 +47,14 @@ class AuthorizeAction extends Action
             $authRequest->setAuthorizationApproved($_SESSION['is_approved'] == 'true');
 
             // Return the HTTP redirect response
-            return $this->authorizationServer->completeAuthorizationRequest($authRequest, $this->response);
+            $response = $this->authorizationServer->completeAuthorizationRequest($authRequest, $this->response);
+            session_destroy();
+            return $response;
         } catch (OAuthServerException $exception) {
+            session_destroy();
             return $exception->generateHttpResponse($this->response);
         } catch (\Exception $exception) {
+            session_destroy();
             $body = new Stream('php://temp', 'r+');
             $body->write($exception->getMessage());
 

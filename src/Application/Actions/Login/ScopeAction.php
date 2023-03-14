@@ -21,7 +21,7 @@ class ScopeAction extends Action
      */
     protected function action(): Response
     {
-        if ($this->request->getParsedBody()['action'] == 'Approve') {
+        if ($this->request->getParsedBody()['action'] == 'submit') {
             $_SESSION['is_approved'] = 'true';
         } else {
             $_SESSION['is_approved'] = 'false';

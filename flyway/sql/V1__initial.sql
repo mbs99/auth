@@ -26,9 +26,12 @@ FOREIGN KEY (client_id) REFERENCES clients (id);
 
 create table auth_codes (
     id int not null AUTO_INCREMENT PRIMARY KEY,
+    identifier varchar(100) not null UNIQUE,
     user_id int not null,
     client_id int not null,
-    redirect_uri varchar(255) not null
+    redirect_uri varchar(255) not null,
+    is_revoked int,
+    expiry_timestamp int
 );
 
 ALTER TABLE auth_codes

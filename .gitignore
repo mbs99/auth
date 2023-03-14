@@ -54,3 +54,4 @@
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,phpunit,dotenv
 .env.prod
+flyway/flyway.conf.prod
