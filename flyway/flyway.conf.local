@@ -1,0 +1,4 @@
+flyway.url=jdbc:mysql://localhost/mariadb
+flyway.user=mariadb
+flyway.password=mariadb
+flyway.cleanDisabled=false
