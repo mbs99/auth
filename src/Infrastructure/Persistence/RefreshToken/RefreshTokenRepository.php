@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author      Alex Bilbie <hello@alexbilbie.com>
  * @copyright   Copyright (c) Alex Bilbie
@@ -12,9 +13,17 @@ namespace App\Infrastructure\Persistence\RefreshToken;
 use App\Domain\RefreshToken\RefreshTokenEntity;
 use League\OAuth2\Server\Entities\RefreshTokenEntityInterface;
 use League\OAuth2\Server\Repositories\RefreshTokenRepositoryInterface;
+use PDO;
 
 class RefreshTokenRepository implements RefreshTokenRepositoryInterface
 {
+    private PDO $pdo;
+
+    public function __construct(PDO $pdo)
+    {
+        $this->pdo = $pdo;
+    }
+
     /**
      * {@inheritdoc}
      */

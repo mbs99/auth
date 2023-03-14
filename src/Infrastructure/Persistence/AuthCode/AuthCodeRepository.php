@@ -13,9 +13,18 @@ namespace App\Infrastructure\Persistence\AuthCode;
 use App\Domain\AuthCode\AuthCodeEntity;
 use League\OAuth2\Server\Entities\AuthCodeEntityInterface;
 use League\OAuth2\Server\Repositories\AuthCodeRepositoryInterface;
+use PDO;
 
 class AuthCodeRepository implements AuthCodeRepositoryInterface
 {
+    private PDO $pdo;
+
+    public function __construct(PDO $pdo)
+    {
+        $this->pdo = $pdo;
+    }
+
+
     /**
      * {@inheritdoc}
      */

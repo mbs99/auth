@@ -6,6 +6,8 @@ use App\Application\Actions\Auth\AccessTokenAction;
 use App\Application\Actions\Auth\AuthorizeAction;
 use App\Application\Actions\Login\LoginViewAction;
 use App\Application\Actions\Login\LoginAction;
+use App\Application\Actions\Login\ScopeAction;
+use App\Application\Actions\Login\ScopeViewAction;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\App;
@@ -44,4 +46,8 @@ return function (App $app) {
     $app->post('/login', LoginAction::class);
 
     $app->get('/login', LoginViewAction::class);
+
+    $app->get('/scopes', ScopeViewAction::class);
+
+    $app->post('/scopes', ScopeAction::class);
 };

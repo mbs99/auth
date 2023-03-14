@@ -17,7 +17,13 @@ use App\Infrastructure\Persistence\AccessToken\AccessTokenRepository;
 use App\Infrastructure\Persistence\AuthCode\AuthCodeRepository;
 use App\Infrastructure\Persistence\RefreshToken\RefreshTokenRepository;
 use Dotenv\Dotenv;
+use League\OAuth2\Server\Entities\AccessTokenEntityInterface;
+use League\OAuth2\Server\Entities\AuthCodeEntityInterface;
+use League\OAuth2\Server\Entities\RefreshTokenEntityInterface;
+use League\OAuth2\Server\Repositories\AccessTokenRepositoryInterface;
+use League\OAuth2\Server\Repositories\AuthCodeRepositoryInterface;
 use League\OAuth2\Server\Repositories\ClientRepositoryInterface;
+use League\OAuth2\Server\Repositories\RefreshTokenRepositoryInterface;
 use League\OAuth2\Server\Repositories\ScopeRepositoryInterface;
 use Slim\Views\Twig;
 
@@ -56,18 +62,25 @@ return function (ContainerBuilder $containerBuilder) {
             $pdo = $c->get(PDO::class);
             return new ScopeRepository($pdo);
         },
+        AccessTokenRepositoryInterface::class => function (ContainerInterface $c) {
+            $pdo = $c->get(PDO::class);
+            return new AccessTokenRepository($pdo);
+        },
+        AuthCodeRepositoryInterface::class => function (ContainerInterface $c) {
+            $pdo = $c->get(PDO::class);
+            return new AuthCodeRepository($pdo);
+        },
+        RefreshTokenRepositoryInterface::class => function (ContainerInterface $c) {
+            $pdo = $c->get(PDO::class);
+            return new RefreshTokenRepository($pdo);
+        },
         AuthorizationServer::class => function (ContainerInterface $c) {
-            // Init our repositories
-            $accessTokenRepository = new AccessTokenRepository();
-            $authCodeRepository = new AuthCodeRepository();
-            $refreshTokenRepository = new RefreshTokenRepository();
-
             $privateKeyPath = 'file://' . __DIR__ . '/../private.key';
 
             // Setup the authorization server
             $server = new AuthorizationServer(
                 $c->get(ClientRepositoryInterface::class),
-                $accessTokenRepository,
+                $c->get(AccessTokenRepositoryInterface::class),
                 $c->get(ScopeRepositoryInterface::class),
                 $privateKeyPath,
                 $_ENV["ENC_KEY"]
@@ -76,8 +89,8 @@ return function (ContainerBuilder $containerBuilder) {
             // Enable the authentication code grant on the server with a token TTL of 1 hour
             $server->enableGrantType(
                 new AuthCodeGrant(
-                    $authCodeRepository,
-                    $refreshTokenRepository,
+                    $c->get(AuthCodeRepositoryInterface::class),
+                    $c->get(RefreshTokenRepositoryInterface::class),
                     new \DateInterval('PT10M')
                 ),
                 new \DateInterval('PT1H')

@@ -40,7 +40,7 @@ class LoginAction extends Action
         $client = $authRequest->getClient();
         $user = $this->userRepo->getUserEntityByUserCredentials(
             $username,
-            password_hash($password, PASSWORD_BCRYPT),
+            $password,
             '',
             $client
         );

@@ -20,6 +20,7 @@ class UserRepository implements UserRepositoryInterface
     {
         $this->pdo = $container->get(PDO::class);
     }
+
     /**
      * {@inheritdoc}
      */
@@ -29,17 +30,18 @@ class UserRepository implements UserRepositoryInterface
         $grantType,
         ClientEntityInterface $clientEntity
     ) {
-        $query = 'SELECT * FROM ' . self::USERS_TABLE . ' WHERE username = ? AND password = ? AND client_id = (SELECT id from clients WHERE identifier = ?)';
+        $query = 'SELECT * FROM ' . self::USERS_TABLE . ' WHERE username = ? AND client_id = (SELECT id from clients WHERE identifier = ?)';
         $stmt  = $this->pdo->prepare($query);
         $stmt->bindParam(1, $username);
-        $stmt->bindParam(2, $password);
         $identifier = $clientEntity->getIdentifier();
-        $stmt->bindParam(3, $identifier);
+        $stmt->bindParam(2, $identifier);
         if ($stmt->execute()) {
             if ($stmt->rowCount() == 1) {
                 $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-                return new UserEntity('' . $result['username']);
+                if (password_verify($password, $result['password'])) {
+                    return new UserEntity('' . $result['id']);
+                }
             }
         }
 
