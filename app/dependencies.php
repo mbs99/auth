@@ -17,15 +17,13 @@ use App\Infrastructure\Persistence\AccessToken\AccessTokenRepository;
 use App\Infrastructure\Persistence\AuthCode\AuthCodeRepository;
 use App\Infrastructure\Persistence\RefreshToken\RefreshTokenRepository;
 use Dotenv\Dotenv;
-use League\OAuth2\Server\Entities\AccessTokenEntityInterface;
-use League\OAuth2\Server\Entities\AuthCodeEntityInterface;
-use League\OAuth2\Server\Entities\RefreshTokenEntityInterface;
 use League\OAuth2\Server\Repositories\AccessTokenRepositoryInterface;
 use League\OAuth2\Server\Repositories\AuthCodeRepositoryInterface;
 use League\OAuth2\Server\Repositories\ClientRepositoryInterface;
 use League\OAuth2\Server\Repositories\RefreshTokenRepositoryInterface;
 use League\OAuth2\Server\Repositories\ScopeRepositoryInterface;
 use Slim\Views\Twig;
+use League\OAuth2\Server\ResourceServer;
 
 return function (ContainerBuilder $containerBuilder) {
     $containerBuilder->addDefinitions([
@@ -94,6 +92,16 @@ return function (ContainerBuilder $containerBuilder) {
                     new \DateInterval('PT10M')
                 ),
                 new \DateInterval('PT1H')
+            );
+
+            return $server;
+        },
+        ResourceServer::class => function (AccessTokenRepositoryInterface $accessTokenRepositoryInterface) {
+            $publicKeyPath = 'file://' . __DIR__ . '/../public.key';
+
+            $server = new ResourceServer(
+                $accessTokenRepositoryInterface,
+                $publicKeyPath
             );
 
             return $server;

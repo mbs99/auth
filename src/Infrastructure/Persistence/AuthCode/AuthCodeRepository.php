@@ -22,9 +22,10 @@ class AuthCodeRepository implements AuthCodeRepositoryInterface
     private const CLIENTS_TABLE = 'clients';
     private PDO $pdo;
 
-    private string $insertQuery = 'INSERT INTO ' . self::TABLE . '(id, identifier, user_id, client_id, redirect_uri, is_revoked, expiry_timestamp)'
+    private const INSERT_QUERY = 'INSERT INTO ' . self::TABLE . '(id, identifier, user_id, client_id, redirect_uri, is_revoked, expiry_timestamp)'
         . ' VALUES (null, ?, ?, (SELECT id from clients where identifier = ?), ?, null, ?)';
-    private string $updateQuery = 'UPDATE ' . self::TABLE . ' SET is_revoked = 1  where identifier = ?';
+    private const UPDATE_QUERY = 'UPDATE ' . self::TABLE . ' SET is_revoked = 1  where identifier = ?';
+    private const SELECT_QUERY = 'SELECT is_revoked FROM ' . self::TABLE . ' where identifier = ?';
 
     public function __construct(PDO $pdo)
     {
@@ -36,7 +37,7 @@ class AuthCodeRepository implements AuthCodeRepositoryInterface
      */
     public function persistNewAuthCode(AuthCodeEntityInterface $authCodeEntity)
     {
-        $stmt  = $this->pdo->prepare($this->insertQuery);
+        $stmt  = $this->pdo->prepare(self::INSERT_QUERY);
         $identifier = $authCodeEntity->getIdentifier();
         $stmt->bindParam(1, $identifier);
         $userId = $authCodeEntity->getUserIdentifier();
@@ -59,7 +60,7 @@ class AuthCodeRepository implements AuthCodeRepositoryInterface
      */
     public function revokeAuthCode($codeId)
     {
-        $stmt  = $this->pdo->prepare($this->updateQuery);
+        $stmt  = $this->pdo->prepare(self::UPDATE_QUERY);
         $stmt->bindParam(1, $codeId);
         if ($stmt->execute()) {
             if ($stmt->rowCount() == 1) {
@@ -72,8 +73,7 @@ class AuthCodeRepository implements AuthCodeRepositoryInterface
      */
     public function isAuthCodeRevoked($codeId)
     {
-        $query = 'SELECT is_revoked FROM ' . self::TABLE . ' where identifier = ?';
-        $stmt  = $this->pdo->prepare($query);
+        $stmt  = $this->pdo->prepare(self::SELECT_QUERY);
         $stmt->bindParam(1, $codeId);
         if ($stmt->execute()) {
             if ($stmt->rowCount() == 1) {
