@@ -38,6 +38,9 @@ class LoginAction extends Action
         $username =  $this->request->getParsedBody()['username'];
         $password = $this->request->getParsedBody()['password'];
         $client = $authRequest->getClient();
+
+        $this->logger->debug(print_r($client, true));
+
         $user = $this->userRepo->getUserEntityByUserCredentials(
             $username,
             $password,

@@ -46,6 +46,8 @@ class AuthorizeAction extends Action
             // (true = approved, false = denied)
             $authRequest->setAuthorizationApproved($_SESSION['is_approved'] == 'true');
 
+            $this->logger->debug(print_r($authRequest, true));
+
             // Return the HTTP redirect response
             $response = $this->authorizationServer->completeAuthorizationRequest($authRequest, $this->response);
             session_destroy();
