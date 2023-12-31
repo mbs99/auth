@@ -15,9 +15,17 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\App;
 use League\OAuth2\Server\Exception\OAuthServerException;
 use App\Application\Actions\User\UserDetailsAction;
-
+use App\Application\Middleware\AuthTokenMiddleware;
+use Psr\Log\LoggerInterface;
 
 return function (App $app) {
+
+    $authTokenMiddleware = new AuthTokenMiddleware(
+        $app->getContainer()->get(LoggerInterface::class),
+        $app->getContainer()->get(ResourceServer::class),
+        $app->getResponseFactory()
+    );
+
     $app->options(
         '/{routes:.*}',
         function (Request $request, Response $response) {
@@ -76,25 +84,5 @@ return function (App $app) {
         }
     );
 
-    $app->get('/user-details', UserDetailsAction::class)->add(
-        function (Request $request, \Psr\Http\Server\RequestHandlerInterface $handler) use ($app) {
-
-            $server = $app->getContainer()->get(ResourceServer::class);
-            $response = $app->getResponseFactory()->createResponse();
-            try {
-                $request = $server->validateAuthenticatedRequest($request);
-            } catch (OAuthServerException $exception) {
-                return $exception->generateHttpResponse($response);
-                // @codeCoverageIgnoreStart
-            } catch (Exception $exception) {
-                return (new OAuthServerException($exception->getMessage(), 0, 'unknown_error', 500))
-                    ->generateHttpResponse($response);
-                // @codeCoverageIgnoreEnd
-            }
-
-
-            // Pass the request and response on to the next responder in the chain
-            return $handler->handle($request);
-        }
-    );
+    $app->get('/user-details', UserDetailsAction::class)->add($authTokenMiddleware);
 };
