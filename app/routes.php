@@ -78,20 +78,30 @@ return function (App $app) {
     );
 
     $app->get('/user-details', UserDetailsAction::class)->add(function (Request $request, \Psr\Http\Server\RequestHandlerInterface $handler) use ($app) {
-        $resourceServer = $app->getContainer()->get(ResourceServer::class);
-        $response = $app->getResponseFactory()->createResponse();
-        try {
-            $request = $resourceServer->validateAuthenticatedRequest($request);
-        } catch (OAuthServerException $exception) {
-            return $exception->generateHttpResponse($response);
-            // @codeCoverageIgnoreStart
-        } catch (Exception $exception) {
-            return (new OAuthServerException($exception->getMessage(), 0, 'unknown_error', 500))
-                ->generateHttpResponse($response);
-            // @codeCoverageIgnoreEnd
-        }
 
-        // Pass the request and response on to the next responder in the chain
+        $request = $request->withAttribute('secure', true);
         return $handler->handle($request);
     });
+
+    $app->add(
+        function (Request $request, \Psr\Http\Server\RequestHandlerInterface $handler) use ($app) {
+            if ($request->getAttribute('secure', false)) {
+                $server = $app->getContainer()->get(ResourceServer::class);
+                $response = $app->getResponseFactory()->createResponse();
+                try {
+                    $request = $server->validateAuthenticatedRequest($request);
+                } catch (OAuthServerException $exception) {
+                    return $exception->generateHttpResponse($response);
+                    // @codeCoverageIgnoreStart
+                } catch (Exception $exception) {
+                    return (new OAuthServerException($exception->getMessage(), 0, 'unknown_error', 500))
+                        ->generateHttpResponse($response);
+                    // @codeCoverageIgnoreEnd
+                }
+            }
+
+            // Pass the request and response on to the next responder in the chain
+            return $handler->handle($request);
+        }
+    );
 };

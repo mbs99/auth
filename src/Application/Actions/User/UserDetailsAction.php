@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Application\Actions\Login;
+namespace App\Application\Actions\User;
 
 use App\Application\Actions\Action;
 use League\OAuth2\Server\Entities\ClientEntityInterface;
