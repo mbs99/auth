@@ -17,6 +17,7 @@ use League\OAuth2\Server\Middleware\ResourceServerMiddleware;
 use League\OAuth2\Server\Exception\OAuthServerException;
 use App\Application\Actions\User\UserDetailsAction;
 
+
 return function (App $app) {
     $app->options(
         '/{routes:.*}',
@@ -76,5 +77,21 @@ return function (App $app) {
         }
     );
 
-    $app->get('/user-details', UserDetailsAction::class)->addMiddleware($app->getContainer()->get(ResourceServerMiddleware::class));
+    $app->get('/user-details', UserDetailsAction::class)->add(function (Request $request, \Psr\Http\Server\RequestHandlerInterface $handler) use ($app) {
+        $resourceServer = $app->getContainer()->get(ResourceServerMiddleware::class);
+        $response = $app->getResponseFactory()->createResponse();
+        try {
+            $request = $resourceServer->validateAuthenticatedRequest($request);
+        } catch (OAuthServerException $exception) {
+            return $exception->generateHttpResponse($response);
+            // @codeCoverageIgnoreStart
+        } catch (Exception $exception) {
+            return (new OAuthServerException($exception->getMessage(), 0, 'unknown_error', 500))
+                ->generateHttpResponse($response);
+            // @codeCoverageIgnoreEnd
+        }
+
+        // Pass the request and response on to the next responder in the chain
+        return $handler->handle($request);
+    });
 };
