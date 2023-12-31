@@ -13,7 +13,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Log\LoggerInterface;
 use Slim\Views\Twig;
 
-class LUserDetailsAction extends Action
+class UserDetailsAction extends Action
 {
     private Twig $twig;
     private UserRepositoryInterface $userRepo;

@@ -13,7 +13,6 @@ use League\OAuth2\Server\ResourceServer;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\App;
-use League\OAuth2\Server\Middleware\ResourceServerMiddleware;
 use League\OAuth2\Server\Exception\OAuthServerException;
 use App\Application\Actions\User\UserDetailsAction;
 
