@@ -78,7 +78,7 @@ return function (App $app) {
 
     $app->get('/user-details', UserDetailsAction::class)->add(function (Request $request, \Psr\Http\Server\RequestHandlerInterface $handler) use ($app) {
 
-        //$request = $request->withAttribute('secure', true);
+        $request = $request->withAttribute('secure', true);
         return $handler->handle($request);
     });
 
