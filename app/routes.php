@@ -76,14 +76,11 @@ return function (App $app) {
         }
     );
 
-    $app->get('/user-details', UserDetailsAction::class)->add(function (Request $request, \Psr\Http\Server\RequestHandlerInterface $handler) use ($app) {
-
-        $request = $request->withAttribute('secure', true);
-        return $handler->handle($request);
-    });
+    $app->get('/user-details', UserDetailsAction::class);
 
     $app->add(
         function (Request $request, \Psr\Http\Server\RequestHandlerInterface $handler) use ($app) {
+
             if ($request->getAttribute('secure', false)) {
                 $server = $app->getContainer()->get(ResourceServer::class);
                 $response = $app->getResponseFactory()->createResponse();
