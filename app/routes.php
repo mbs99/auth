@@ -76,11 +76,8 @@ return function (App $app) {
         }
     );
 
-    $app->get('/user-details', UserDetailsAction::class);
-
-    $app->add(
+    $app->get('/user-details', UserDetailsAction::class)->add(
         function (Request $request, \Psr\Http\Server\RequestHandlerInterface $handler) use ($app) {
-
 
             $server = $app->getContainer()->get(ResourceServer::class);
             $response = $app->getResponseFactory()->createResponse();
