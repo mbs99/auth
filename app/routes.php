@@ -76,5 +76,5 @@ return function (App $app) {
         }
     );
 
-    $app->get('/user-details', UserDetailsAction::class)->add($app->getContainer()->get(ResourceServerMiddleware::class));
+    $app->get('/user-details', UserDetailsAction::class)->addMiddleware($app->getContainer()->get(ResourceServerMiddleware::class));
 };
