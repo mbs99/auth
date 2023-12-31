@@ -24,6 +24,7 @@ use League\OAuth2\Server\Repositories\RefreshTokenRepositoryInterface;
 use League\OAuth2\Server\Repositories\ScopeRepositoryInterface;
 use Slim\Views\Twig;
 use League\OAuth2\Server\ResourceServer;
+use League\OAuth2\Server\Middleware\ResourceServerMiddleware;
 
 return function (ContainerBuilder $containerBuilder) {
     $containerBuilder->addDefinitions([
@@ -105,6 +106,9 @@ return function (ContainerBuilder $containerBuilder) {
             );
 
             return $server;
+        },
+        ResourceServerMiddleware::class => function (ResourceServer $resourceServer) {
+            return new \League\OAuth2\Server\Middleware\ResourceServerMiddleware($resourceServer);
         },
         'view' => function () {
             return Twig::create(__DIR__ . '/../templates', ['cache' => __DIR__ . '/../var/cache']);

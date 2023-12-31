@@ -13,7 +13,7 @@ use League\OAuth2\Server\ResourceServer;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\App;
-use Slim\Handlers\Strategies\RequestHandler;
+use League\OAuth2\Server\Middleware\ResourceServerMiddleware;
 use League\OAuth2\Server\Exception\OAuthServerException;
 
 return function (App $app) {
@@ -74,4 +74,6 @@ return function (App $app) {
             return $handler->handle($request);
         }
     );
+
+    $app->get('/user-details', UserDetailsAction::class)->add($app->getContainer()->get(ResourceServerMiddleware::class));
 };
