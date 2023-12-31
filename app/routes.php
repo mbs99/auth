@@ -78,7 +78,7 @@ return function (App $app) {
     );
 
     $app->get('/user-details', UserDetailsAction::class)->add(function (Request $request, \Psr\Http\Server\RequestHandlerInterface $handler) use ($app) {
-        $resourceServer = $app->getContainer()->get(ResourceServerMiddleware::class);
+        $resourceServer = $app->getContainer()->get(ResourceServer::class);
         $response = $app->getResponseFactory()->createResponse();
         try {
             $request = $resourceServer->validateAuthenticatedRequest($request);
