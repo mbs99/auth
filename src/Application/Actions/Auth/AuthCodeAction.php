@@ -40,6 +40,8 @@ class AuthCodeAction extends Action
         // If we don't have an authorization code then get one
         if (!isset($_GET['code'])) {
 
+            $_SESSION = [];
+
             // Fetch the authorization URL from the provider; this returns the
             // urlAuthorize option and generates and applies any necessary parameters
             // (e.g. state).
