@@ -45,8 +45,12 @@ class AuthCodeAction extends Action
             // (e.g. state).
             $authorizationUrl = $this->provider->getAuthorizationUrl();
 
+            $oauth2state = $this->provider->getState();
+
+            $this->logger->debug('oauth2state=' . $oauth2state);
+
             // Get the state generated for you and store it to the session.
-            $_SESSION['oauth2state'] = $this->provider->getState();
+            $_SESSION['oauth2state'] = $oauth2state;
 
             // Redirect the user to the authorization URL.
             header('Location: ' . $authorizationUrl);
@@ -54,6 +58,9 @@ class AuthCodeAction extends Action
 
             // Check given state against previously stored one to mitigate CSRF attack
         } elseif (empty($_GET['state']) || empty($_SESSION['oauth2state']) || $_GET['state'] !== $_SESSION['oauth2state']) {
+
+            $this->logger->debug('state=' . $_GET['state']);
+            $this->logger->debug('oauth2state=' . $_SESSION['oauth2state']);
 
             if (isset($_SESSION['oauth2state'])) {
                 unset($_SESSION['oauth2state']);
