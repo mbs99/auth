@@ -47,7 +47,7 @@ class AuthCodeAction extends Action
 
             $oauth2state = $this->provider->getState();
 
-            $this->logger->debug('oauth2state=' . $oauth2state);
+            $this->logger->debug('provider oauth2state=' . $oauth2state);
 
             // Get the state generated for you and store it to the session.
             $_SESSION['oauth2state'] = $oauth2state;
