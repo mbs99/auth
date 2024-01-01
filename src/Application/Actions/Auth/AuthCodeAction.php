@@ -59,9 +59,6 @@ class AuthCodeAction extends Action
             // Check given state against previously stored one to mitigate CSRF attack
         } elseif (empty($_GET['state']) || empty($_SESSION['oauth2state']) || $_GET['state'] !== $_SESSION['oauth2state']) {
 
-            $this->logger->debug('state=' . $_GET['state']);
-            $this->logger->debug('oauth2state=' . $_SESSION['oauth2state']);
-
             if (isset($_SESSION['oauth2state'])) {
                 unset($_SESSION['oauth2state']);
             }
@@ -75,6 +72,8 @@ class AuthCodeAction extends Action
                 $accessToken = $this->provider->getAccessToken('authorization_code', [
                     'code' => $_GET['code']
                 ]);
+
+                $_SESSION['oauth2token'] = $accessToken;
             } catch (\League\OAuth2\Client\Provider\Exception\IdentityProviderException $e) {
 
                 // Failed to get the access token or user details.
