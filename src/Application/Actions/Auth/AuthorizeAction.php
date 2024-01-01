@@ -50,7 +50,6 @@ class AuthorizeAction extends Action
 
             // Return the HTTP redirect response
             $response = $this->authorizationServer->completeAuthorizationRequest($authRequest, $this->response);
-            session_destroy();
             return $response;
         } catch (OAuthServerException $exception) {
             session_destroy();
