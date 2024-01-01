@@ -16,6 +16,8 @@ use Slim\App;
 use App\Application\Actions\User\UserDetailsAction;
 use App\Application\Middleware\AuthTokenMiddleware;
 use Psr\Log\LoggerInterface;
+use App\Application\Actions\Auth\AuthCodeAction;
+
 
 return function (App $app) {
 
@@ -66,4 +68,6 @@ return function (App $app) {
     $app->get('/token', CheckTokenAction::class)->add($authTokenMiddleware);
 
     $app->get('/user-details', UserDetailsAction::class)->add($authTokenMiddleware);
+
+    $app->get('/auth-code', AuthCodeAction::class);
 };
