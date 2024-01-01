@@ -3,10 +3,11 @@ version: "3.7"
 volumes:
   logs:
     driver: local
+  mariadb-data:
 
 services:
   slim:
-    image: php:8-alpine
+    image: auth-dev
     working_dir: /var/www
     command: php -S 0.0.0.0:8080 -t public
     environment:
@@ -16,3 +17,15 @@ services:
     volumes:
       - .:/var/www
       - logs:/var/www/logs
+  db:
+    image: mariadb:10.4
+    restart: unless-stopped
+    volumes:
+      - mariadb-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: mariadb
+      MYSQL_DATABASE: mariadb
+      MYSQL_USER: mariadb
+      MYSQL_PASSWORD: mariadb
+    ports:
+      - 3306:3306
