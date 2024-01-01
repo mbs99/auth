@@ -17,7 +17,7 @@ use App\Application\Actions\User\UserDetailsAction;
 use App\Application\Middleware\AuthTokenMiddleware;
 use Psr\Log\LoggerInterface;
 use App\Application\Actions\Auth\AuthCodeAction;
-
+use App\Application\Actions\Main\MainAction;
 
 return function (App $app) {
 
@@ -35,14 +35,6 @@ return function (App $app) {
         }
     );
 
-    $app->get(
-        '/',
-        function (Request $request, Response $response) {
-            $response->getBody()->write('Hello world!');
-            return $response;
-        }
-    );
-
     /*
     $app->group(
     '/users',
@@ -52,6 +44,7 @@ return function (App $app) {
     }
     );
     */
+    $app->get('/', MainAction::class);
 
     $app->get('/authorize', AuthorizeAction::class);
 
