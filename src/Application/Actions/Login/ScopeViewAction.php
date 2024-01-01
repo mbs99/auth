@@ -27,7 +27,7 @@ class ScopeViewAction extends Action
     {
         $authRequest = $_SESSION['auth_request'];
 
-        $this->logger->debug('scopes = ' . $authRequest->getScopes());
+        $this->logger->debug('scopes = ' . print_r($authRequest->getScopes(), true));
 
         return $this->twig->render($this->response, 'scopes.html', ['scopes' => $authRequest->getScopes()]);
     }
