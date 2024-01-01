@@ -25,6 +25,10 @@ class ScopeViewAction extends Action
      */
     protected function action(): Response
     {
-        return $this->twig->render($this->response, 'scopes.html', []);
+        $authRequest = $_SESSION['auth_request'];
+
+        $this->logger->debug('scopes = ' . $authRequest->getScopes());
+
+        return $this->twig->render($this->response, 'scopes.html', ['scopes' => $authRequest->getScopes()]);
     }
 }

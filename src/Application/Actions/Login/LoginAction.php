@@ -13,6 +13,8 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Log\LoggerInterface;
 use Slim\Views\Twig;
 
+use function PHPUnit\Framework\isEmpty;
+
 class LoginAction extends Action
 {
     private Twig $twig;
@@ -52,7 +54,14 @@ class LoginAction extends Action
             $authRequest->setUser($user);
             $_SESSION['auth_request'] = $authRequest;
 
-            return $this->response->withHeader('Location', '/scopes')->withStatus(302);
+            $scopes = $authRequest->getScopes();
+
+            if (null == $scopes || empty($scopes)) {
+                $_SESSION['is_approved'] = 'true';
+                return $this->response->withHeader('Location', '/authorize')->withStatus(302);
+            } else {
+                return $this->response->withHeader('Location', '/scopes')->withStatus(302);
+            }
         }
 
         return $this->twig->render($this->response, 'login.html', ['error' => 'invalid credentials']);
