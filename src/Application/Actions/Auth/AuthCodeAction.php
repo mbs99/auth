@@ -28,7 +28,8 @@ class AuthCodeAction extends Action
             'redirectUri'             => 'https://auth.marc-stroebel.de/auth-code',
             'urlAuthorize'            => 'https://auth.marc-stroebel.de/authorize',
             'urlAccessToken'          => 'https://auth.marc-stroebel.de/access-token',
-            'urlResourceOwnerDetails' => 'https://auth.marc-stroebel.de/user-details'
+            'urlResourceOwnerDetails' => 'https://auth.marc-stroebel.de/user-details',
+            'scopes'                  => ['basic']
         ]);
     }
 
