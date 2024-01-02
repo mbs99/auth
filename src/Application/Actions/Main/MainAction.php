@@ -27,10 +27,10 @@ class MainAction extends Action
      */
     protected function action(): Response
     {
-        $accessToken = $_SESSION['oauth2token'];
+        $authenticated = in_array('oauth2token', $_SESSION);
 
-        $this->logger->debug($accessToken);
+        $this->logger->debug('' . $authenticated);
 
-        return $this->twig->render($this->response, 'index.html', ['is_authenticated' => isset($accessToken)]);
+        return $this->twig->render($this->response, 'index.html', ['is_authenticated' => $authenticated]);
     }
 }
