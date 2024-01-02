@@ -27,6 +27,6 @@ class LoginViewAction extends Action
     {
         $authRequest = $_SESSION['auth_request'];
 
-        return $this->twig->render($this->response, 'login.html', ['client' => $authRequest->getClient()]);
+        return $this->twig->render($this->response, 'login.html', ['client' => $authRequest->getClient()->getName()]);
     }
 }
