@@ -29,7 +29,7 @@ class MainAction extends Action
     {
         $authenticated = in_array('oauth2token', $_SESSION);
 
-        $this->logger->debug('' . $authenticated);
+        $this->logger->debug('authenticated = ' . $authenticated);
 
         return $this->twig->render($this->response, 'index.html', ['is_authenticated' => $authenticated]);
     }
