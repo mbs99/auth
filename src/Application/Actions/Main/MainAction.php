@@ -28,6 +28,9 @@ class MainAction extends Action
     protected function action(): Response
     {
         $accessToken = $_SESSION['oauth2token'];
+
+        $this->logger->debug($accessToken);
+
         return $this->twig->render($this->response, 'index.html', ['is_authenticated' => isset($accessToken)]);
     }
 }
