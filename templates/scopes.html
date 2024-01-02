@@ -22,9 +22,9 @@
             <div class="row">
                 <div class="col">
                     {% if scopes|length > 0 %}
-                    <ul>
+                    <ul class="list-group">
                         {% for scope in scopes %}
-                        <li>{{ scope.identifier|e }}</li>
+                        <li class="list-group-item">{{ scope.identifier|e }}</li>
                         {% endfor %}
                     </ul>
                     {% endif %}
