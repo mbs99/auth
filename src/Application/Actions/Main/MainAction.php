@@ -27,7 +27,7 @@ class MainAction extends Action
      */
     protected function action(): Response
     {
-        $authenticated = in_array('oauth2token', $_SESSION);
+        $authenticated = isset($_SESSION['oauth2token']);
 
         $this->logger->debug('authenticated = ' . $authenticated);
 
