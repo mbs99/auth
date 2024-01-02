@@ -18,6 +18,13 @@
     </nav>
     <h1>Approve scopes</h1>
     <form action="/scopes" method="POST">
+        {% if scopes|length > 0 %}
+        <ul>
+            {% for scope in scopes %}
+            <li>{{ scope.identifier|e }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
         <button type="submit" name="action" value="submit">Approve</button>
         <button type="submit" name="action" value="cancel">Deny</button>
     </form>
