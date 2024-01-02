@@ -77,6 +77,8 @@ class AuthCodeAction extends Action
                 ]);
 
                 $_SESSION['oauth2token'] = $accessToken;
+
+                $this->logger->debug('token = ' . $accessToken);
             } catch (\League\OAuth2\Client\Provider\Exception\IdentityProviderException $e) {
 
                 // Failed to get the access token or user details.
