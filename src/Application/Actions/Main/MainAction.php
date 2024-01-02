@@ -10,8 +10,6 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Log\LoggerInterface;
 use Slim\Views\Twig;
 
-use function PHPUnit\Framework\isEmpty;
-
 class MainAction extends Action
 {
     private Twig $twig;
@@ -30,6 +28,6 @@ class MainAction extends Action
     protected function action(): Response
     {
         $accessToken = $_SESSION['oauth2token'];
-        return $this->twig->render($this->response, 'index.html', ['is_authenticated' => !isEmpty($accessToken)]);
+        return $this->twig->render($this->response, 'index.html', ['is_authenticated' => isset($accessToken)]);
     }
 }
