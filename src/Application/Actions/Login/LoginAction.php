@@ -5,15 +5,11 @@ declare(strict_types=1);
 namespace App\Application\Actions\Login;
 
 use App\Application\Actions\Action;
-use League\OAuth2\Server\Entities\ClientEntityInterface;
-use League\OAuth2\Server\Entities\UserEntityInterface;
 use League\OAuth2\Server\Repositories\UserRepositoryInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Log\LoggerInterface;
 use Slim\Views\Twig;
-
-use function PHPUnit\Framework\isEmpty;
 
 class LoginAction extends Action
 {

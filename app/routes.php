@@ -63,4 +63,6 @@ return function (App $app) {
     $app->get('/user-details', UserDetailsAction::class)->add($authTokenMiddleware);
 
     $app->get('/auth-code', AuthCodeAction::class);
+
+    $app->get('/logout', LogoutAction::class);
 };
