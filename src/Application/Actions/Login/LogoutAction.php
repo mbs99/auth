@@ -21,7 +21,9 @@ class LogoutAction extends Action
      */
     protected function action(): Response
     {
-        $_SESSION = [];
+        if (isset($_SESSION['oauth2token'])) {
+            $_SESSION = [];
+        }
 
         return $this->response->withHeader('Location', '/')->withStatus(302);
     }
