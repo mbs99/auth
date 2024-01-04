@@ -18,6 +18,7 @@ use App\Application\Middleware\AuthTokenMiddleware;
 use Psr\Log\LoggerInterface;
 use App\Application\Actions\Auth\AuthCodeAction;
 use App\Application\Actions\Main\MainAction;
+use App\Application\Actions\Login\LogoutAction;
 
 return function (App $app) {
 
