@@ -23,6 +23,6 @@ class LogoutAction extends Action
     {
         $_SESSION = [];
 
-        return $this->response->withHeader('Location', '/');
+        return $this->response->withHeader('Location', '/')->withStatus(302);
     }
 }
