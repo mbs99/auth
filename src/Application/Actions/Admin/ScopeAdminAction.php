@@ -10,6 +10,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Log\LoggerInterface;
 use Slim\Views\Twig;
 use App\Infrastructure\Persistence\Scope\ScopeAdminRepositoryInterface;
+use League\OAuth2\Server\Entities\ScopeEntityInterface;
 
 class ScopeAdminAction extends Action
 {
@@ -35,7 +36,7 @@ class ScopeAdminAction extends Action
 
             $this->logger->debug('scopes = ' . print_r($scopes, true));
 
-            return $this->twig->render($this->response, 'admin_scopes.html', ['scopes' => array_map(function ($scope) {
+            return $this->twig->render($this->response, 'admin_scopes.html', ['scopes' => array_map(function (ScopeEntityInterface $scope) {
                 return $scope->getIdentifier();
             }, $scopes)]);
         }
