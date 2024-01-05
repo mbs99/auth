@@ -33,7 +33,9 @@ class ScopeAdminAction extends Action
         if ($authenticated) {
             $scopes = $this->scopeAdminRepositoryInterface->getScopes();
 
-            return $this->twig->render($this->response, 'admin_scopes.html', ['scopes' => $scopes]);
+            return $this->twig->render($this->response, 'admin_scopes.html', ['scopes' => array_map(function ($scope) {
+                return $scope->getIdenifier();
+            }, $scopes)]);
         }
 
         return $this->response->withHeader('Location', '/')->withStatus(401);
