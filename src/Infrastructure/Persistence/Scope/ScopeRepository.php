@@ -14,15 +14,18 @@ use App\Domain\Scope\ScopeEntity;
 use League\OAuth2\Server\Entities\ClientEntityInterface;
 use App\Infrastructure\Persistence\Scope\ScopeAdminRepositoryInterface;
 use PDO;
+use Psr\Log\LoggerInterface;
 
 class ScopeRepository implements ScopeAdminRepositoryInterface
 {
     private const SCOPES_TABLE = 'scopes';
 
+    private LoggerInterface $logger;
     private PDO $pdo;
 
-    public function __construct(PDO $pdo)
+    public function __construct(LoggerInterface $logger, PDO $pdo)
     {
+        $this->logger = $logger;
         $this->pdo = $pdo;
     }
 
@@ -80,6 +83,9 @@ class ScopeRepository implements ScopeAdminRepositoryInterface
 
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return array_map(function ($scope) {
+
+                $this->logger->debug('scope = ' . print_r($scope, true));
+
                 $entity = new ScopeEntity();
                 $entity->setIdentifier($scope['name']);
             }, $results);

@@ -62,7 +62,8 @@ return function (ContainerBuilder $containerBuilder) {
         },
         ScopeAdminRepositoryInterface::class => function (ContainerInterface $c) {
             $pdo = $c->get(PDO::class);
-            return new ScopeRepository($pdo);
+            $logger = $c->get(LoggerInterface::class);
+            return new ScopeRepository($logger, $pdo);
         },
         AccessTokenRepositoryInterface::class => function (ContainerInterface $c) {
             $pdo = $c->get(PDO::class);
