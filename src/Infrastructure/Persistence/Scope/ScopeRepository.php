@@ -77,14 +77,12 @@ class ScopeRepository implements ScopeAdminRepositoryInterface
         $query = 'SELECT * FROM ' . self::SCOPES_TABLE;
         $stmt  = $this->pdo->prepare($query);
         if ($stmt->execute()) {
-            if ($stmt->rowCount() == 1) {
-                $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-                $scope = new ScopeEntity();
-                $scope->setIdentifier($result['name']);
-
-                return $scope;
-            }
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return array_map(function ($scope) {
+                $entity = new ScopeEntity();
+                $entity->setIdentifier($scope['name']);
+            }, $results);
         }
 
         return [];
