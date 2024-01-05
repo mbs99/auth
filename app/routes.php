@@ -19,6 +19,7 @@ use Psr\Log\LoggerInterface;
 use App\Application\Actions\Auth\AuthCodeAction;
 use App\Application\Actions\Main\MainAction;
 use App\Application\Actions\Login\LogoutAction;
+use App\Application\Actions\Admin\ScopeAdminAction;
 
 return function (App $app) {
 
@@ -66,4 +67,6 @@ return function (App $app) {
     $app->get('/auth-code', AuthCodeAction::class);
 
     $app->get('/logout', LogoutAction::class);
+
+    $app->get('/admin/scopes', ScopeAdminAction::class);
 };

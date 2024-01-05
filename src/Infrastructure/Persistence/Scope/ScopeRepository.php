@@ -12,10 +12,10 @@ namespace App\Infrastructure\Persistence\Scope;
 
 use App\Domain\Scope\ScopeEntity;
 use League\OAuth2\Server\Entities\ClientEntityInterface;
-use League\OAuth2\Server\Repositories\ScopeRepositoryInterface;
+use App\Infrastructure\Persistence\Scope\ScopeAdminRepositoryInterface;
 use PDO;
 
-class ScopeRepository implements ScopeRepositoryInterface
+class ScopeRepository implements ScopeAdminRepositoryInterface
 {
     private const SCOPES_TABLE = 'scopes';
 
@@ -65,5 +65,28 @@ class ScopeRepository implements ScopeRepositoryInterface
         }*/
 
         return $scopes;
+    }
+
+    /**
+     * Return scopes
+     *
+     * @return ScopeEntityInterface[]
+     */
+    public function getScopes()
+    {
+        $query = 'SELECT * FROM ' . self::SCOPES_TABLE;
+        $stmt  = $this->pdo->prepare($query);
+        if ($stmt->execute()) {
+            if ($stmt->rowCount() == 1) {
+                $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                $scope = new ScopeEntity();
+                $scope->setIdentifier($result['name']);
+
+                return $scope;
+            }
+        }
+
+        return [];
     }
 }

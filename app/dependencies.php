@@ -25,6 +25,9 @@ use League\OAuth2\Server\Repositories\ScopeRepositoryInterface;
 use Slim\Views\Twig;
 use League\OAuth2\Server\ResourceServer;
 use League\OAuth2\Server\Middleware\ResourceServerMiddleware;
+use App\Infrastructure\Persistence\Scope\ScopeAdminRepositoryInterface;
+
+
 
 return function (ContainerBuilder $containerBuilder) {
     $containerBuilder->addDefinitions([
@@ -57,7 +60,7 @@ return function (ContainerBuilder $containerBuilder) {
             $pdo = $c->get(PDO::class);
             return new ClientRepository($pdo);
         },
-        ScopeRepositoryInterface::class => function (ContainerInterface $c) {
+        ScopeAdminRepositoryInterface::class => function (ContainerInterface $c) {
             $pdo = $c->get(PDO::class);
             return new ScopeRepository($pdo);
         },
@@ -80,7 +83,7 @@ return function (ContainerBuilder $containerBuilder) {
             $server = new AuthorizationServer(
                 $c->get(ClientRepositoryInterface::class),
                 $c->get(AccessTokenRepositoryInterface::class),
-                $c->get(ScopeRepositoryInterface::class),
+                $c->get(ScopeAdminRepositoryInterface::class),
                 $privateKeyPath,
                 $_ENV["ENC_KEY"]
             );
