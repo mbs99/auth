@@ -36,10 +36,7 @@ class ScopeAdminAction extends Action
 
             $this->logger->debug('scopes = ' . print_r($scopes, true));
 
-            return $this->twig->render($this->response, 'admin_scopes.html', ['scopes' => array_map(function (ScopeEntityInterface $scope) {
-                $this->logger->debug('scope = ' . print_r($scope, true));
-                return $scope->getIdentifier();
-            }, $scopes)]);
+            return $this->twig->render($this->response, 'admin_scopes.html', ['scopes' => $scopes]);
         }
 
         return $this->response->withHeader('Location', '/')->withStatus(401);
