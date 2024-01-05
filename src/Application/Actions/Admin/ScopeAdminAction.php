@@ -36,7 +36,7 @@ class ScopeAdminAction extends Action
             $this->logger->debug('scopes = ' . print_r($scopes, true));
 
             return $this->twig->render($this->response, 'admin_scopes.html', ['scopes' => array_map(function ($scope) {
-                return $scope->getIdenifier();
+                return $scope->getIdentifier();
             }, $scopes)]);
         }
 
