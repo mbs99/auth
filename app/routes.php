@@ -69,4 +69,6 @@ return function (App $app) {
     $app->get('/logout', LogoutAction::class);
 
     $app->get('/admin/scopes', ScopeAdminAction::class);
+
+    $app->post('/admin/scopes', ScopeAdminAction::class);
 };

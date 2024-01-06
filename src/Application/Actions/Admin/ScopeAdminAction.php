@@ -36,7 +36,12 @@ class ScopeAdminAction extends Action
 
             $this->logger->debug('scopes = ' . print_r($scopes, true));
 
-            return $this->twig->render($this->response, 'admin_scopes.html', ['scopes' => $scopes]);
+            if ('GET' == $this->request->getMethod()) {
+                return $this->twig->render($this->response, 'admin_scopes.html', ['scopes' => $scopes]);
+            } else if ('POST' == $this->request->getMethod()) {
+            } else {
+                return $this->twig->render($this->response, 'admin_scopes.html', ['scopes' => $scopes]);
+            }
         }
 
         return $this->response->withHeader('Location', '/')->withStatus(401);
