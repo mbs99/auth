@@ -18,26 +18,17 @@
     </nav>
     <div class="container">
         <h1>Edit scopes</h1>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">Identifier</th>
-                    <th scope="col">Description</th>
-                    <th scope="col"></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>{{ scope.identifier }}</td>
-                    <td>{{ scope.description }}</td>
-                    <td>
-                        <button class="btn btn-primary" hx-post="/admin/scopes">
-                            Add scope
-                        </button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <form hx-post="/admin/scope">
+            <div class="mb-3">
+                <label for="scopeIdentifier" class="form-label">Identifier</label>
+                <input type="email" class="form-control" id="scopeIdentifier">
+            </div>
+            <div class="mb-3">
+                <label for="scopeDescription" class="form-label">Description</label>
+                <input type="password" class="form-control" id="scopeDescription">
+            </div>
+            <button type="submit" class="btn btn-primary">Create scope</button>
+        </form>
         {% if scopes|length > 0 %}
         <table class="table">
             <thead>
