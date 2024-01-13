@@ -38,7 +38,7 @@ class TokenAdminAction extends Action
 
             $this->logger->debug('tokens = ' . print_r($tokens, true));
 
-            $tokenUsers = [];
+            $tokenUsers = array();
             foreach ($tokens as $token) {
                 $tokenUsers[$token->getIdentifier()] = 'Test';
             }
