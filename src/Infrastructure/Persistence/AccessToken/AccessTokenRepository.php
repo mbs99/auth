@@ -25,7 +25,7 @@ class AccessTokenRepository implements AccessTokenAdminRepositoryInterface
 
     private const SELECT_QUERY = 'SELECT is_revoked FROM ' . self::TABLE . ' where identifier = ?';
 
-    private const SELECT_ALL_QUERY = 'SELECT access_tokens.identifier AS identifier, user_id, name FROM ' . self::TABLE . ' LEFT JOIN clients ON clients.id = ' . self::TABLE . '.client_id where access_tokens.is_revoked <> 1';
+    private const SELECT_ALL_QUERY = 'SELECT access_tokens.identifier AS identifier, user_id, name FROM ' . self::TABLE . ' LEFT JOIN clients ON clients.id = ' . self::TABLE . '.client_id';
 
 
     private PDO $pdo;
