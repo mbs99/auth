@@ -11,6 +11,7 @@
 namespace App\Infrastructure\Persistence\AccessToken;
 
 use App\Domain\AccessToken\AccessTokenEntity;
+use App\Domain\Client\ClientEntity;
 use League\OAuth2\Server\Entities\AccessTokenEntityInterface;
 use League\OAuth2\Server\Entities\ClientEntityInterface;
 use PDO;
@@ -110,6 +111,11 @@ class AccessTokenRepository implements AccessTokenAdminRepositoryInterface
                 $entity = new AccessTokenEntity();
                 $entity->setIdentifier($token['identifier']);
                 $entity->setUserIdentifier($token['user_id']);
+
+                $clientEntity = new ClientEntity();
+                $clientEntity->setName($token['name']);
+                $entity->setClient($clientEntity);
+
                 return $entity;
             }, $results);
         }
