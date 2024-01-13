@@ -82,7 +82,7 @@ return function (ContainerBuilder $containerBuilder) {
             // Setup the authorization server
             $server = new AuthorizationServer(
                 $c->get(ClientRepositoryInterface::class),
-                $c->get(AccessTokenRepositoryInterface::class),
+                $c->get(AccessTokenAdminRepositoryInterface::class),
                 $c->get(ScopeAdminRepositoryInterface::class),
                 $privateKeyPath,
                 $_ENV["ENC_KEY"]
@@ -91,7 +91,7 @@ return function (ContainerBuilder $containerBuilder) {
             // Enable the authentication code grant on the server with a token TTL of 1 hour
             $server->enableGrantType(
                 new AuthCodeGrant(
-                    $c->get(AccessTokenAdminRepositoryInterface::class),
+                    $c->get(AuthCodeRepositoryInterface::class),
                     $c->get(RefreshTokenRepositoryInterface::class),
                     new \DateInterval('PT10M')
                 ),
