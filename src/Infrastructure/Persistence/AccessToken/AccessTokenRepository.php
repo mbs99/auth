@@ -103,7 +103,9 @@ class AccessTokenRepository implements AccessTokenAdminRepositoryInterface
     {
         $stmt  = $this->pdo->prepare(self::SELECT_ALL_QUERY);
         if ($stmt->execute()) {
-            return $stmt->fetch(PDO::FETCH_ASSOC);
+            $tokens = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            return is_array($tokens) ? $tokens : [$tokens];
         }
         return [];
     }
