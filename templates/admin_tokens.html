@@ -22,7 +22,6 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th scope="col">#</th>
                     <th scope="col">Identifier</th>
                     <th scope="col">Client</th>
                     <th scope="col">User</th>
@@ -32,7 +31,6 @@
             <tbody>
                 {% for token in tokens %}
                 <tr>
-                    <th scope="row">{{ token.id }}</th>
                     <td>{{ token.identifier }}</td>
                     <td>{{ token.client.name }}</td>
                     <td>{{ tokenUsers[token.identifier] }}</td>
