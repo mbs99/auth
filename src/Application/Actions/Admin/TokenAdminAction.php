@@ -33,13 +33,13 @@ class TokenAdminAction extends Action
         if ($authenticated) {
             $tokens = $this->accessTokenAdminRepositoryInterface->getAllTokens();
 
-            $this->logger->debug('scopes = ' . print_r($tokens, true));
+            $this->logger->debug('tokens = ' . print_r($tokens, true));
 
             if ('GET' == $this->request->getMethod()) {
                 return $this->twig->render($this->response, 'admin_tokens.html', ['tokens' => $tokens]);
             } else if ('POST' == $this->request->getMethod()) {
-            } else {
                 return $this->twig->render($this->response, 'admin_tokens.html', ['tokens' => $tokens]);
+            } else {
             }
         }
 

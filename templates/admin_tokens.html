@@ -18,13 +18,13 @@
     </nav>
     <div class="container">
         <h1>Tokens</h1>
-        <form action="/token" method="POST">
+        <form action="/admin/tokens" method="POST">
             <div class="row">
                 <div class="col">
                     {% if tokens|length > 0 %}
                     <ul class="list-group">
                         {% for token in tokens %}
-                        <li class="list-group-item">{{ token.id|e }}</li>
+                        <li class="list-group-item">{{ token.identifier|e }}</li>
                         {% endfor %}
                     </ul>
                     {% endif %}
