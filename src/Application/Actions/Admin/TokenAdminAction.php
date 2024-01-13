@@ -46,7 +46,7 @@ class TokenAdminAction extends Action
             if ('GET' == $this->request->getMethod()) {
                 return $this->twig->render($this->response, 'admin_tokens.html', ['tokens' => $tokens, 'tokenUsers' => $tokenUsers]);
             } else if ('POST' == $this->request->getMethod()) {
-                return $this->twig->render($this->response, 'admin_tokens.html', ['tokens' => $tokens,, 'tokenUsers' => $tokenUsers]);
+                return $this->twig->render($this->response, 'admin_tokens.html', ['tokens' => $tokens, 'tokenUsers' => $tokenUsers]);
             } else {
             }
         }
