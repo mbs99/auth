@@ -18,14 +18,13 @@ use App\Infrastructure\Persistence\AuthCode\AuthCodeRepository;
 use App\Infrastructure\Persistence\RefreshToken\RefreshTokenRepository;
 use Dotenv\Dotenv;
 use League\OAuth2\Server\Repositories\AccessTokenRepositoryInterface;
-use League\OAuth2\Server\Repositories\AuthCodeRepositoryInterface;
 use League\OAuth2\Server\Repositories\ClientRepositoryInterface;
 use League\OAuth2\Server\Repositories\RefreshTokenRepositoryInterface;
-use League\OAuth2\Server\Repositories\ScopeRepositoryInterface;
 use Slim\Views\Twig;
 use League\OAuth2\Server\ResourceServer;
 use League\OAuth2\Server\Middleware\ResourceServerMiddleware;
 use App\Infrastructure\Persistence\Scope\ScopeAdminRepositoryInterface;
+use App\Infrastructure\Persistence\AccessToken\AccessTokenAdminRepositoryInterface;
 
 
 
@@ -65,11 +64,11 @@ return function (ContainerBuilder $containerBuilder) {
             $logger = $c->get(LoggerInterface::class);
             return new ScopeRepository($logger, $pdo);
         },
-        AccessTokenRepositoryInterface::class => function (ContainerInterface $c) {
+        AccessTokenAdminRepositoryInterface::class => function (ContainerInterface $c) {
             $pdo = $c->get(PDO::class);
             return new AccessTokenRepository($pdo);
         },
-        AuthCodeRepositoryInterface::class => function (ContainerInterface $c) {
+        AccessTokenAdminRepositoryInterface::class => function (ContainerInterface $c) {
             $pdo = $c->get(PDO::class);
             return new AuthCodeRepository($pdo);
         },
@@ -92,7 +91,7 @@ return function (ContainerBuilder $containerBuilder) {
             // Enable the authentication code grant on the server with a token TTL of 1 hour
             $server->enableGrantType(
                 new AuthCodeGrant(
-                    $c->get(AuthCodeRepositoryInterface::class),
+                    $c->get(AccessTokenAdminRepositoryInterface::class),
                     $c->get(RefreshTokenRepositoryInterface::class),
                     new \DateInterval('PT10M')
                 ),

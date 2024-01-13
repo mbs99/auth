@@ -13,11 +13,9 @@ namespace App\Infrastructure\Persistence\AccessToken;
 use App\Domain\AccessToken\AccessTokenEntity;
 use League\OAuth2\Server\Entities\AccessTokenEntityInterface;
 use League\OAuth2\Server\Entities\ClientEntityInterface;
-use League\OAuth2\Server\Repositories\AccessTokenRepositoryInterface;
 use PDO;
-use Psr\Container\ContainerInterface;
 
-class AccessTokenRepository implements AccessTokenRepositoryInterface
+class AccessTokenRepository implements AccessTokenAdminRepositoryInterface
 {
     private const TABLE = 'access_tokens';
     private const INSERT_QUERY = 'INSERT INTO ' . self::TABLE . '(id, identifier, user_id, client_id, is_revoked)'
@@ -25,6 +23,8 @@ class AccessTokenRepository implements AccessTokenRepositoryInterface
     private const UPDATE_QUERY = 'UPDATE ' . self::TABLE . ' SET is_revoked = 1  where identifier = ?';
 
     private const SELECT_QUERY = 'SELECT is_revoked FROM ' . self::TABLE . ' where identifier = ?';
+
+    private const SELECT_ALL_QUERY = 'SELECT * FROM ' . self::TABLE;
 
 
     private PDO $pdo;
@@ -94,5 +94,17 @@ class AccessTokenRepository implements AccessTokenRepositoryInterface
         $accessToken->setUserIdentifier($userIdentifier);
 
         return $accessToken;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAllTokens()
+    {
+        $stmt  = $this->pdo->prepare(self::SELECT_ALL_QUERY);
+        if ($stmt->execute()) {
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        }
+        return [];
     }
 }
