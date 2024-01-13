@@ -17,7 +17,7 @@
         </div>
     </nav>
     <div class="container">
-        <h1>Tokens</h1>
+        <h1>Active Tokens</h1>
         {% if tokens|length > 0 %}
         <table class="table">
             <thead>
@@ -35,9 +35,9 @@
                     <th scope="row">{{ token.id }}</th>
                     <td>{{ token.identifier }}</td>
                     <td>{{ token.client.name }}</td>
-                    <td>{{ token.user_id }}</td>
+                    <td>{{ token.userIdentifier }}</td>
                     <td>
-                        <button class="btn btn-danger" hx-delete="/admin/token/{{ token.identifier }}">
+                        <button class="btn btn-danger" hx-delete="/admin/tokens/{{ token.identifier }}">
                             Revoke
                         </button>
                     </td>
