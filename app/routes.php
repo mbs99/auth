@@ -73,7 +73,7 @@ return function (App $app) {
 
     $app->post('/admin/scopes', ScopeAdminAction::class);
 
-    $app->get('/admin/token', TokenAdminAction::class);
+    $app->get('/admin/tokens', TokenAdminAction::class);
 
-    $app->post('/admin/token', TokenAdminAction::class);
+    $app->post('/admin/tokens', TokenAdminAction::class);
 };
