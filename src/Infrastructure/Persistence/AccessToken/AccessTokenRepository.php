@@ -109,7 +109,7 @@ class AccessTokenRepository implements AccessTokenAdminRepositoryInterface
 
                 $entity = new AccessTokenEntity();
                 $entity->setIdentifier($token['identifier']);
-                $entity->setClient($token['client']);
+                $entity->setUserIdentifier($token['user_id']);
                 return $entity;
             }, $results);
         }

@@ -47,7 +47,7 @@ create table access_tokens (
     identifier varchar(100) not null UNIQUE,
     is_revoked int,
     user_id int not null,
-     client_id int not null
+    client_id int not null
 );
 
 ALTER TABLE access_tokens
