@@ -25,7 +25,7 @@ use League\OAuth2\Server\ResourceServer;
 use League\OAuth2\Server\Middleware\ResourceServerMiddleware;
 use App\Infrastructure\Persistence\Scope\ScopeAdminRepositoryInterface;
 use App\Infrastructure\Persistence\AccessToken\AccessTokenAdminRepositoryInterface;
-
+use League\OAuth2\Server\Repositories\AuthCodeRepositoryInterface;
 
 
 return function (ContainerBuilder $containerBuilder) {
@@ -68,7 +68,7 @@ return function (ContainerBuilder $containerBuilder) {
             $pdo = $c->get(PDO::class);
             return new AccessTokenRepository($pdo);
         },
-        AccessTokenAdminRepositoryInterface::class => function (ContainerInterface $c) {
+        AuthCodeRepositoryInterface::class => function (ContainerInterface $c) {
             $pdo = $c->get(PDO::class);
             return new AuthCodeRepository($pdo);
         },
