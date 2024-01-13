@@ -35,7 +35,7 @@
                     <th scope="row">{{ token.id }}</th>
                     <td>{{ token.identifier }}</td>
                     <td>{{ token.client.name }}</td>
-                    <td>{{ token.userIdentifier }}</td>
+                    <td>{{ tokenUsers[token.userIdentifier] }}</td>
                     <td>
                         <button class="btn btn-danger" hx-delete="/admin/tokens/{{ token.identifier }}">
                             Revoke

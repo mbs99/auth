@@ -10,17 +10,20 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Log\LoggerInterface;
 use Slim\Views\Twig;
 use App\Infrastructure\Persistence\AccessToken\AccessTokenAdminRepositoryInterface;
+use League\OAuth2\Server\Repositories\UserRepositoryInterface;
 
 class TokenAdminAction extends Action
 {
     private Twig $twig;
     private AccessTokenAdminRepositoryInterface $accessTokenAdminRepositoryInterface;
+    private UserRepositoryInterface $userRepositoryInterface;
 
     public function __construct(LoggerInterface $logger, ContainerInterface $container)
     {
         parent::__construct($logger);
         $this->twig = $container->get('view');
         $this->accessTokenAdminRepositoryInterface = $container->get(AccessTokenAdminRepositoryInterface::class);
+        $this->userRepositoryInterface = $container->get(UserRepositoryInterface::class);
     }
 
     /**
@@ -35,10 +38,15 @@ class TokenAdminAction extends Action
 
             $this->logger->debug('tokens = ' . print_r($tokens, true));
 
+            $tokenUsers = [];
+            foreach ($tokens as $token) {
+                $tokenUsers[$token->getIdentifier()] = 'Test';
+            }
+
             if ('GET' == $this->request->getMethod()) {
-                return $this->twig->render($this->response, 'admin_tokens.html', ['tokens' => $tokens]);
+                return $this->twig->render($this->response, 'admin_tokens.html', ['tokens' => $tokens, 'tokenUsers' => $tokenUsers]);
             } else if ('POST' == $this->request->getMethod()) {
-                return $this->twig->render($this->response, 'admin_tokens.html', ['tokens' => $tokens]);
+                return $this->twig->render($this->response, 'admin_tokens.html', ['tokens' => $tokens,, 'tokenUsers' => $tokenUsers]);
             } else {
             }
         }
