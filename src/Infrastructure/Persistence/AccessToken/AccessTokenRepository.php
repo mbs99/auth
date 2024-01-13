@@ -25,7 +25,7 @@ class AccessTokenRepository implements AccessTokenAdminRepositoryInterface
 
     private const SELECT_QUERY = 'SELECT is_revoked FROM ' . self::TABLE . ' where identifier = ?';
 
-    private const SELECT_ALL_QUERY = 'SELECT access_tokens.identifier AS identifier, user_id, name FROM ' . self::TABLE . ' LEFT JOIN clients ON clients.id = ' . self::TABLE . '.client_id';
+    private const SELECT_ALL_QUERY = 'SELECT access_tokens.identifier AS identifier, user_id, name, is_revoked FROM ' . self::TABLE . ' LEFT JOIN clients ON clients.id = ' . self::TABLE . '.client_id';
 
 
     private PDO $pdo;
@@ -106,6 +106,10 @@ class AccessTokenRepository implements AccessTokenAdminRepositoryInterface
         if ($stmt->execute()) {
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+            $activeTokens = array_filter($results, function ($token) {
+                return 1 == $token['is_revoked'] ? false : true;
+            });
+
             return array_map(function ($token) {
 
                 $entity = new AccessTokenEntity();
@@ -117,7 +121,7 @@ class AccessTokenRepository implements AccessTokenAdminRepositoryInterface
                 $entity->setClient($clientEntity);
 
                 return $entity;
-            }, $results);
+            }, $activeTokens);
         }
         return [];
     }
