@@ -20,6 +20,7 @@ use App\Application\Actions\Auth\AuthCodeAction;
 use App\Application\Actions\Main\MainAction;
 use App\Application\Actions\Login\LogoutAction;
 use App\Application\Actions\Admin\ScopeAdminAction;
+use App\Application\Actions\Admin\TokenAdminAction;
 
 return function (App $app) {
 
@@ -71,4 +72,8 @@ return function (App $app) {
     $app->get('/admin/scopes', ScopeAdminAction::class);
 
     $app->post('/admin/scopes', ScopeAdminAction::class);
+
+    $app->get('/admin/token', TokenAdminAction::class);
+
+    $app->post('/admin/token', TokenAdminAction::class);
 };
