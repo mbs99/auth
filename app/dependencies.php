@@ -100,11 +100,11 @@ return function (ContainerBuilder $containerBuilder) {
 
             return $server;
         },
-        ResourceServer::class => function (AccessTokenRepositoryInterface $accessTokenRepositoryInterface) {
+        ResourceServer::class => function (AccessTokenAdminRepositoryInterface $accessTokenAdminRepositoryInterface) {
             $publicKeyPath = 'file://' . __DIR__ . '/../public.key';
 
             $server = new ResourceServer(
-                $accessTokenRepositoryInterface,
+                $accessTokenAdminRepositoryInterface,
                 $publicKeyPath
             );
 
