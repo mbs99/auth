@@ -43,6 +43,8 @@ class TokenAdminAction extends Action
                 $tokenUsers[$token->getIdentifier()] = 'Test';
             }
 
+            $this->logger->debug('tokenUsers = ' . print_r($tokenUsers, true));
+
             if ('GET' == $this->request->getMethod()) {
                 return $this->twig->render($this->response, 'admin_tokens.html', ['tokens' => $tokens, 'tokenUsers' => $tokenUsers]);
             } else if ('POST' == $this->request->getMethod()) {
