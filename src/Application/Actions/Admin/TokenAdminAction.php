@@ -54,7 +54,7 @@ class TokenAdminAction extends Action
 
                 $this->accessTokenAdminRepositoryInterface->revokeAccessToken($id);
 
-                return $this->response->withStatus(204);
+                return $this->response->withStatus(200);
             }
         }
 
