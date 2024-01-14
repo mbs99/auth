@@ -49,7 +49,19 @@ class TokenAdminAction extends Action
                 return $this->twig->render($this->response, 'admin_tokens.html', ['tokens' => $tokens, 'tokenUsers' => $tokenUsers]);
             } else if ('POST' == $this->request->getMethod()) {
                 return $this->twig->render($this->response, 'admin_tokens.html', ['tokens' => $tokens, 'tokenUsers' => $tokenUsers]);
-            } else {
+            } else if ('DELETE' == $this->request->getMethod()) {
+                $id = $this->resolveArg('id');
+
+                $this->accessTokenAdminRepositoryInterface->revokeAccessToken($id);
+
+                $tokens = $this->accessTokenAdminRepositoryInterface->getAllTokens();
+
+                $tokenUsers = array();
+                foreach ($tokens as $token) {
+                    $tokenUsers[$token->getIdentifier()] = 'Test';
+                }
+
+                return $this->twig->render($this->response, 'admin_tokens.html', ['tokens' => $tokens, 'tokenUsers' => $tokenUsers]);
             }
         }
 

@@ -76,4 +76,6 @@ return function (App $app) {
     $app->get('/admin/tokens', TokenAdminAction::class);
 
     $app->post('/admin/tokens', TokenAdminAction::class);
+
+    $app->delete('/admin/tokens/{id}', TokenAdminAction::class);
 };
