@@ -54,14 +54,7 @@ class TokenAdminAction extends Action
 
                 $this->accessTokenAdminRepositoryInterface->revokeAccessToken($id);
 
-                $tokens = $this->accessTokenAdminRepositoryInterface->getAllTokens();
-
-                $tokenUsers = array();
-                foreach ($tokens as $token) {
-                    $tokenUsers[$token->getIdentifier()] = 'Test';
-                }
-
-                return $this->twig->render($this->response, 'admin_tokens.html', ['tokens' => $tokens, 'tokenUsers' => $tokenUsers]);
+                return $this->response->withStatus(204);
             }
         }
 
