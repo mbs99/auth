@@ -12,7 +12,7 @@ use Slim\Views\Twig;
 use App\Infrastructure\Persistence\Scope\ScopeAdminRepositoryInterface;
 use League\OAuth2\Server\Entities\ScopeEntityInterface;
 
-class ScopeAdminEditAction extends Action
+class ScopeAdminCancelAction extends Action
 {
     private Twig $twig;
     private ScopeAdminRepositoryInterface $scopeAdminRepositoryInterface;
@@ -32,17 +32,15 @@ class ScopeAdminEditAction extends Action
         $authenticated = isset($_SESSION['oauth2token']);
 
         if ($authenticated) {
+            $scopes = $this->scopeAdminRepositoryInterface->getScopes();
 
-            $id = $this->resolveArg('id');
-            $scope = $this->scopeAdminRepositoryInterface->getScopeEntityByIdentifier($id);
-
-            $this->logger->debug('scopes = ' . print_r($scope, true));
+            $this->logger->debug('scopes = ' . print_r($scopes, true));
 
             if ('GET' == $this->request->getMethod()) {
-                return $this->twig->render($this->response, 'admin_scopes_edit.html', ['scope' => $scope]);
+                return $this->twig->render($this->response, 'admin_scopes_cancel.html', ['scopes' => $scopes]);
             } else if ('POST' == $this->request->getMethod()) {
             } else {
-                return $this->twig->render($this->response, 'admin_scopes_edit.html', ['scope' => $scope]);
+                return $this->twig->render($this->response, 'admin_scopes_cancel.html', ['scopes' => $scopes]);
             }
         }
 

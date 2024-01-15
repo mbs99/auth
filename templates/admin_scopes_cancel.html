@@ -1,0 +1,16 @@
+<tr>
+    <th scope="row">1</th>
+    <td>{{ scope.identifier }}</td>
+    <td>{{ scope.descroption }}</td>
+    <td>
+        <button class="btn btn-secondary" hx-get="/admin/scope/{{ scope.identifier }}/edit">
+            Edit
+        </button>
+    </td>
+    <td>
+        <button class="btn btn-secondary" hx-delete="/admin/scope/{{ scope.identifier }}" hx-target="closest tr"
+            hx-swap="outerHTML swap:1s">
+            Delete
+        </button>
+    </td>
+</tr>
