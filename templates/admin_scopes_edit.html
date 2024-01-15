@@ -1,13 +1,11 @@
 <tr>
     <th scope="row">1</th>
-    <td><input type="text" class="form-control" value="{{ scope.identifier }}"></td>
+    <td><input type="text" class="form-control" value="{{ scope.identifier }}" required></td>
     <td><input type="text" class="form-control" value="{{ scope.description }}"></td>
     <td>
         <button class="btn btn-secondary" hx-put="/admin/scopes/{{ scope.identifier }}">
             Save
         </button>
-    </td>
-    <td>
         <button class="btn btn-secondary" hx-get="/admin/scopes/{{ scope.identifier }}/cancel" hx-target="closest tr"
             hx-swap="outerHTML swap:1s">
             Cancel

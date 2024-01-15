@@ -39,7 +39,6 @@
                     <th scope="col">Identifier</th>
                     <th scope="col">Description</th>
                     <th scope="col"></th>
-                    <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
@@ -53,8 +52,6 @@
                             hx-target="closest tr" hx-swap="outerHTML swap:1s">
                             Edit
                         </button>
-                    </td>
-                    <td>
                         <button class="btn btn-secondary" hx-delete="/admin/scopes/{{ scope.identifier }}"
                             hx-target="closest tr" hx-swap="outerHTML swap:1s">
                             Delete
