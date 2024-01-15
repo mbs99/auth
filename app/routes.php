@@ -21,6 +21,8 @@ use App\Application\Actions\Main\MainAction;
 use App\Application\Actions\Login\LogoutAction;
 use App\Application\Actions\Admin\ScopeAdminAction;
 use App\Application\Actions\Admin\TokenAdminAction;
+use App\Application\Actions\Admin\ScopeAdminEditAction;
+
 
 return function (App $app) {
 
@@ -72,6 +74,8 @@ return function (App $app) {
     $app->get('/admin/scopes', ScopeAdminAction::class);
 
     $app->post('/admin/scopes', ScopeAdminAction::class);
+
+    $app->get('/admin/scopes/{id}/edit', ScopeAdminEditAction::class);
 
     $app->get('/admin/tokens', TokenAdminAction::class);
 

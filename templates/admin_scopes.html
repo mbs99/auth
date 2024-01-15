@@ -39,6 +39,7 @@
                     <th scope="col">Identifier</th>
                     <th scope="col">Description</th>
                     <th scope="col"></th>
+                    <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
@@ -48,8 +49,15 @@
                     <td>{{ scope.identifier }}</td>
                     <td>{{ scope.description }}</td>
                     <td>
-                        <button class="btn btn-secondary" hx-delete="/admin/scope/">
-                            Delete
+                        <button class="btn btn-secondary" hx-get="/admin/scope/{{ scope.identifier }}/edit"
+                            hx-target="closest tr" hx-swap="outerHTML swap:1s">
+                            Edit
+                        </button>
+                    </td>
+                    <td>
+                        <button class="btn btn-secondary" hx-delete="/admin/scope/{{ scope.identifier }}"
+                            hx-target="closest tr" hx-swap="outerHTML swap:1s"></button>
+                        Delete
                         </button>
                     </td>
                 </tr>
