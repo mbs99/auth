@@ -35,7 +35,6 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th scope="col">#</th>
                     <th scope="col">Identifier</th>
                     <th scope="col">Description</th>
                     <th scope="col"></th>
@@ -44,7 +43,6 @@
             <tbody>
                 {% for scope in scopes %}
                 <tr>
-                    <th scope="row">1</th>
                     <td><input type="text" class="form-control" value="{{ scope.identifier }}" disabled></td>
                     <td><input type="text" class="form-control" value="{{ scope.description }}" disabled></td>
                     <td>
