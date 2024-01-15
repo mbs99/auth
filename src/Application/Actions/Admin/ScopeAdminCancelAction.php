@@ -32,15 +32,16 @@ class ScopeAdminCancelAction extends Action
         $authenticated = isset($_SESSION['oauth2token']);
 
         if ($authenticated) {
-            $scopes = $this->scopeAdminRepositoryInterface->getScopes();
+            $id = $this->resolveArg('id');
+            $scope = $this->scopeAdminRepositoryInterface->getScopeEntityByIdentifier($id);
 
-            $this->logger->debug('scopes = ' . print_r($scopes, true));
+            $this->logger->debug('scopes = ' . print_r($scope, true));
 
             if ('GET' == $this->request->getMethod()) {
-                return $this->twig->render($this->response, 'admin_scopes_cancel.html', ['scopes' => $scopes]);
+                return $this->twig->render($this->response, 'admin_scopes_cancel.html', ['scope' => $scope]);
             } else if ('POST' == $this->request->getMethod()) {
             } else {
-                return $this->twig->render($this->response, 'admin_scopes_cancel.html', ['scopes' => $scopes]);
+                return $this->twig->render($this->response, 'admin_scopes_cancel.html', ['scope' => $scope]);
             }
         }
 
