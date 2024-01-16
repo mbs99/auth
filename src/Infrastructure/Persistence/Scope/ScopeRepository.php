@@ -97,7 +97,7 @@ class ScopeRepository implements ScopeAdminRepositoryInterface
 
     public function updateScope(ScopeEntity $scope)
     {
-        $query = 'UPDATE ' . self::SCOPES_TABLE . ' SET identifier=?, description=? WHERE identifier=?';
+        $query = 'UPDATE ' . self::SCOPES_TABLE . ' SET name=?, description=? WHERE name=?';
         $stmt  = $this->pdo->prepare($query);
         if ($stmt->execute([$scope->getIdentifier(), $scope->getDescription(), $scope->getIdentifier()])) {
             return $scope;
