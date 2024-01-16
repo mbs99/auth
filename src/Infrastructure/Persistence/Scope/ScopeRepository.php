@@ -115,9 +115,9 @@ class ScopeRepository implements ScopeAdminRepositoryInterface
     {
         $this->logger->debug('scopeToCreate= ' . print_r($scope, true));
 
-        $query = 'INSERT INTO ' . self::SCOPES_TABLE . ' (name, description) VALUES (?,?)';
+        $query = 'INSERT INTO ' . self::SCOPES_TABLE . ' (id, name, description) VALUES (?, ?, ?)';
         $stmt  = $this->pdo->prepare($query);
-        if ($stmt->execute([$scope->getIdentifier(), $scope->getDescription()])) {
+        if ($stmt->execute([null, $scope->getIdentifier(), $scope->getDescription()])) {
 
             $this->logger->debug('added rows = ' . $stmt->rowCount());
 
