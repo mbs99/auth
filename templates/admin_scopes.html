@@ -19,7 +19,7 @@
     <div class="container">
         <h1>Edit scopes</h1>
         <form hx-post="/admin/scope">
-            <div class="row">
+            <div class="row g-3">
                 <div class="col">
                     <label for="scopeIdentifier" class="form-label">Identifier</label>
                     <input type="text" class="form-control" id="scopeIdentifier" name="identifier" required>
@@ -35,7 +35,7 @@
 
         {% for scope in scopes %}
         <form>
-            <div class="row" id="scope-{{ scope.identifier }}">
+            <div class="row g-3" id="scope-{{ scope.identifier }}">
                 <div class="col-md-6">
                     <label for="scopeIdentifier" class="form-label">Identifier</label>
                     <input type="text" class="form-control" id="scopeIdentifier" name="identifier"
