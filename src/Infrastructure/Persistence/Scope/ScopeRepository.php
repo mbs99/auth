@@ -101,6 +101,7 @@ class ScopeRepository implements ScopeAdminRepositoryInterface
         $stmt  = $this->pdo->prepare($query);
         $stmt->bindParam(1, $scope->getIdentifier());
         $stmt->bindParam(2, $scope->getDescription());
+        $stmt->bindParam(2, $scope->getIdentifier());
         if ($stmt->execute()) {
             return $scope;
         }
