@@ -46,7 +46,7 @@ class ScopeAdminAction extends Action
                 $scope->setIdentifier($body['identifier']);
                 $scope->setDescription($body['description']);
 
-                $scope = $this->scopeAdminRepositoryInterface->updateScope($scope);
+                $scope = $this->scopeAdminRepositoryInterface->createScope($scope);
 
                 $this->response->withHeader('HX-Redirect', '/admin/scopes')->withStatus(200);
             } else {
