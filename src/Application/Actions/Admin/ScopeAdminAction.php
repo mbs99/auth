@@ -48,6 +48,8 @@ class ScopeAdminAction extends Action
 
                 $scope = $this->scopeAdminRepositoryInterface->createScope($scope);
 
+                $this->logger->debug('before redirect', [ScopeAdminAction::class]);
+
                 $this->response->withHeader('HX-Redirect', '/admin/scopes')->withStatus(200);
             } else {
                 return $this->twig->render($this->response, 'admin_scopes.html', ['scopes' => $scopes]);
