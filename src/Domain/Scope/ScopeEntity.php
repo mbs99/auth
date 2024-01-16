@@ -18,9 +18,21 @@ class ScopeEntity implements ScopeEntityInterface
 {
     use EntityTrait, ScopeTrait;
 
+    private $description;
+
     #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         return $this->getIdentifier();
+    }
+
+    public function setDescription(string $description)
+    {
+        $this->description = $description;
+    }
+
+    public function getDescription()
+    {
+        return $this->description;
     }
 }

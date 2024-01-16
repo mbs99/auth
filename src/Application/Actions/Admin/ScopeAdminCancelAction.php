@@ -35,12 +35,7 @@ class ScopeAdminCancelAction extends Action
             $id = $this->resolveArg('id');
             $scope = $this->scopeAdminRepositoryInterface->getScopeEntityByIdentifier($id);
 
-            $this->logger->debug('scopes = ' . print_r($scope, true));
-
             if ('GET' == $this->request->getMethod()) {
-                return $this->twig->render($this->response, 'admin_scopes_cancel.html', ['scope' => $scope]);
-            } else if ('POST' == $this->request->getMethod()) {
-            } else {
                 return $this->twig->render($this->response, 'admin_scopes_cancel.html', ['scope' => $scope]);
             }
         }

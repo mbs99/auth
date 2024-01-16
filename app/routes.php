@@ -81,6 +81,8 @@ return function (App $app) {
 
     $app->get('/admin/scopes/{id}/cancel', ScopeAdminCancelAction::class);
 
+    $app->put('/admin/scopes/{id}', ScopeAdminEditAction::class);
+
     $app->get('/admin/tokens', TokenAdminAction::class);
 
     $app->post('/admin/tokens', TokenAdminAction::class);

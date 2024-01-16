@@ -10,7 +10,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Log\LoggerInterface;
 use Slim\Views\Twig;
 use App\Infrastructure\Persistence\Scope\ScopeAdminRepositoryInterface;
-use League\OAuth2\Server\Entities\ScopeEntityInterface;
+use App\Domain\Scope\ScopeEntity;
 
 class ScopeAdminEditAction extends Action
 {
@@ -40,7 +40,17 @@ class ScopeAdminEditAction extends Action
 
             if ('GET' == $this->request->getMethod()) {
                 return $this->twig->render($this->response, 'admin_scopes_edit.html', ['scope' => $scope]);
-            } else if ('POST' == $this->request->getMethod()) {
+            } else if ('PUT' == $this->request->getMethod()) {
+                $body = $this->request->getParsedBody();
+                $this->logger->debug('scopes = ' . print_r($scope, true));
+
+                $updatedScope = new ScopeEntity();
+                $updatedScope->setIdentifier($body['identifier']);
+                $updatedScope->setDescription($body['description']);
+
+                $updatedScope = $this->scopeAdminRepositoryInterface->updateScope($updatedScope);
+
+                return $this->twig->render($this->response, 'admin_scopes_cancel.html', ['scope' => $updatedScope]);
             } else {
                 return $this->twig->render($this->response, 'admin_scopes_edit.html', ['scope' => $scope]);
             }
