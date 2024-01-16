@@ -1,13 +1,19 @@
-<tr>
-    <td><input type="text" class="form-control" value="{{ scope.identifier }}" name="idenitfier" required></td>
-    <td><input type="text" class="form-control" value="{{ scope.description }}" name="description"></td>
-    <td>
-        <button class="btn btn-secondary" hx-put="/admin/scopes/{{ scope.identifier }}">
-            Save
-        </button>
-        <button class="btn btn-secondary" hx-get="/admin/scopes/{{ scope.identifier }}/cancel" hx-target="closest tr"
-            hx-swap="outerHTML swap:1s">
-            Cancel
-        </button>
-    </td>
-</tr>
+<div class="col-md-6">
+    <label for="scopeIdentifier" class="form-label">Identifier</label>
+    <input type="text" class="form-control" id="scopeIdentifier" name="identifier" value="{{ scope.identifier }}"
+        required>
+</div>
+<div class="col-md-6">
+    <label for="scopeDescription" class="form-label">Description</label>
+    <input type="text" class="form-control" id="scopeDescription" name="description" value="{{ scope.description }}">
+</div>
+<div class="col-md-12">
+    <button class="btn btn-secondary" hx-put="/admin/scopes/{{ scope.identifier }}"
+        hx-target="#scope-{{ scope.identifier }}" hx-swap="innerHTML">
+        Save
+    </button>
+    <button class="btn btn-secondary" hx-get="/admin/scopes/{{ scope.identifier }}/cancel"
+        hx-target="#scope-{{ scope.identifier }}" hx-swap="innerHTML"">
+        Cancel
+    </button>
+</div>
