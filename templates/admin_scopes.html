@@ -35,26 +35,28 @@
 
         {% for scope in scopes %}
         <form>
-            <div class="row">
-                <div class="col">
+            <div class="row" id="scope-{{ scope.identifier }}">
+                <div class="col.md-6">
                     <label for="scopeIdentifier" class="form-label">Identifier</label>
                     <input type="text" class="form-control" id="scopeIdentifier" name="identifier"
                         value="{{ scope.identifier }}" readonly>
                 </div>
-                <div class="col">
+                <div class="col.md-6">
                     <label for="scopeDescription" class="form-label">Description</label>
                     <input type="text" class="form-control" id="scopeDescription" name="description"
                         value="{{ scope.description }}" readonly>
                 </div>
+                <div class="col-md-12">
+                    <button class="btn btn-secondary" hx-get="/admin/scopes/{{ scope.identifier }}/edit"
+                        hx-target="#scope-{{ scope.identifier }}" hx-swap="innerHTML">
+                        Edit
+                    </button>
+                    <button class="btn btn-secondary" hx-delete="/admin/scopes/{{ scope.identifier }}"
+                        hx-target="#scope-{{ scope.identifier }}" hx-swap="innerHTML">
+                        Delete
+                    </button>
+                </div>
             </div>
-            <button class="btn btn-secondary" hx-get="/admin/scopes/{{ scope.identifier }}/edit" hx-target="closest div"
-                hx-swap="outerHTML swap:1s">
-                Edit
-            </button>
-            <button class="btn btn-secondary" hx-delete="/admin/scopes/{{ scope.identifier }}" hx-target="closest div"
-                hx-swap="outerHTML swap:1s">
-                Delete
-            </button>
         </form>
         {% endfor %}
         {% endif %}
