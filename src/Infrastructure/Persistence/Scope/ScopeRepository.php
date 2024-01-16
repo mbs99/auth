@@ -102,6 +102,9 @@ class ScopeRepository implements ScopeAdminRepositoryInterface
         $query = 'UPDATE ' . self::SCOPES_TABLE . ' SET name=?, description=? WHERE name=?';
         $stmt  = $this->pdo->prepare($query);
         if ($stmt->execute([$scope->getIdentifier(), $scope->getDescription(), $scope->getIdentifier()])) {
+
+            $this->logger->debug('updated rows = ' . $stmt->rowCount());
+
             return $scope;
         }
     }
