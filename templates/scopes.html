@@ -19,8 +19,8 @@
     <div class="container">
         <h1>Approve scopes</h1>
         <form action="/scopes" method="POST">
-            <div class="row">
-                <div class="col">
+            <div class="row g-3">
+                <div class="col-md-12">
                     {% if scopes|length > 0 %}
                     <ul class="list-group">
                         {% for scope in scopes %}
@@ -29,9 +29,7 @@
                     </ul>
                     {% endif %}
                 </div>
-            </div>
-            <div class="row">
-                <div class="col">
+                <div class="col-md-12">
                     <button type="submit" name="action" value="submit" class="btn btn-primary">Approve</button>
                     <button type="submit" name="action" value="cancel" class="btn btn-secondary">Deny</button>
                 </div>
