@@ -42,7 +42,7 @@ class ScopeAdminEditAction extends Action
                 return $this->twig->render($this->response, 'admin_scopes_edit.html', ['scope' => $scope]);
             } else if ('PUT' == $this->request->getMethod()) {
                 $body = $this->request->getParsedBody();
-                $this->logger->debug('scopes = ' . print_r($scope, true));
+                $this->logger->debug('body = ' . print_r($body, true));
 
                 $updatedScope = new ScopeEntity();
                 $updatedScope->setIdentifier($body['identifier']);
