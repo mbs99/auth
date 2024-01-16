@@ -23,8 +23,7 @@ use App\Application\Actions\Admin\ScopeAdminAction;
 use App\Application\Actions\Admin\TokenAdminAction;
 use App\Application\Actions\Admin\ScopeAdminEditAction;
 use App\Application\Actions\Admin\ScopeAdminCancelAction;
-
-
+use App\Application\Actions\Admin\ScopeAdminDeleteAction;
 
 return function (App $app) {
 
@@ -82,6 +81,8 @@ return function (App $app) {
     $app->get('/admin/scopes/{id}/cancel', ScopeAdminCancelAction::class);
 
     $app->put('/admin/scopes/{id}', ScopeAdminEditAction::class);
+
+    $app->delete('/admin/scopes/{id}', ScopeAdminDeleteAction::class);
 
     $app->get('/admin/tokens', TokenAdminAction::class);
 

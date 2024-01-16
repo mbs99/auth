@@ -124,4 +124,16 @@ class ScopeRepository implements ScopeAdminRepositoryInterface
             return $scope;
         }
     }
+
+    public function deleteScope($identifier)
+    {
+        $this->logger->debug('scopeIdToDelete= ' . $identifier, [$this::class]);
+
+        $query = 'DELETE FROM ' . self::SCOPES_TABLE . ' WHERE name=?';
+        $stmt  = $this->pdo->prepare($query);
+        if ($stmt->execute([$identifier])) {
+
+            $this->logger->debug('deleted rows = ' . $stmt->rowCount(), [$this::class]);
+        }
+    }
 }
