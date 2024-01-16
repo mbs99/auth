@@ -89,6 +89,7 @@ class ScopeRepository implements ScopeAdminRepositoryInterface
 
                 $entity = new ScopeEntity();
                 $entity->setIdentifier($scope['name']);
+                $entity->setDescription($scope['description']);
                 return $entity;
             }, $results);
         }
