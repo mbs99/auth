@@ -34,13 +34,13 @@ class ScopeAdminAction extends Action
         if ($authenticated) {
             $scopes = $this->scopeAdminRepositoryInterface->getScopes();
 
-            $this->logger->debug('scopes = ' . print_r($scopes, true));
+            $this->logger->debug('scopes = ' . print_r($scopes, true), [ScopeAdminAction::class]);
 
             if ('GET' == $this->request->getMethod()) {
                 return $this->twig->render($this->response, 'admin_scopes.html', ['scopes' => $scopes]);
             } else if ('POST' == $this->request->getMethod()) {
                 $body = $this->request->getParsedBody();
-                $this->logger->debug('body = ' . print_r($body, true));
+                $this->logger->debug('body = ' . print_r($body, true), [ScopeAdminAction::class]);
 
                 $scope = new ScopeEntity();
                 $scope->setIdentifier($body['identifier']);
@@ -48,9 +48,7 @@ class ScopeAdminAction extends Action
 
                 $scope = $this->scopeAdminRepositoryInterface->createScope($scope);
 
-                $this->logger->debug('before redirect', [ScopeAdminAction::class]);
-
-                $this->response->withHeader('HX-Redirect', '/admin/scopes')->withStatus(200);
+                return $this->response->withHeader('HX-Redirect', '/admin/scopes')->withStatus(200);
             } else {
                 return $this->twig->render($this->response, 'admin_scopes.html', ['scopes' => $scopes]);
             }
