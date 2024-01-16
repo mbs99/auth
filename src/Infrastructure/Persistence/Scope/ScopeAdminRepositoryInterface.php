@@ -20,4 +20,11 @@ interface ScopeAdminRepositoryInterface extends ScopeRepositoryInterface
      * @return ScopeEntityInterface
      */
     public function updateScope(ScopeEntity $scope);
+
+    /**
+     * update scope
+     *
+     * @return ScopeEntityInterface
+     */
+    public function createScope(ScopeEntity $scope);
 }

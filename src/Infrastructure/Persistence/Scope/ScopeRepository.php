@@ -110,4 +110,18 @@ class ScopeRepository implements ScopeAdminRepositoryInterface
             return $scope;
         }
     }
+
+    public function createScope(ScopeEntity $scope)
+    {
+        $this->logger->debug('scopeToCreate= ' . print_r($scope, true));
+
+        $query = 'INSERT INTO ' . self::SCOPES_TABLE . ' (name, description) VALUES (?,?)';
+        $stmt  = $this->pdo->prepare($query);
+        if ($stmt->execute([$scope->getIdentifier(), $scope->getDescription()])) {
+
+            $this->logger->debug('added rows = ' . $stmt->rowCount());
+
+            return $scope;
+        }
+    }
 }

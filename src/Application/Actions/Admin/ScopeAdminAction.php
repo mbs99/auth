@@ -10,7 +10,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Log\LoggerInterface;
 use Slim\Views\Twig;
 use App\Infrastructure\Persistence\Scope\ScopeAdminRepositoryInterface;
-use League\OAuth2\Server\Entities\ScopeEntityInterface;
+use App\Domain\Scope\ScopeEntity;
 
 class ScopeAdminAction extends Action
 {
@@ -39,6 +39,16 @@ class ScopeAdminAction extends Action
             if ('GET' == $this->request->getMethod()) {
                 return $this->twig->render($this->response, 'admin_scopes.html', ['scopes' => $scopes]);
             } else if ('POST' == $this->request->getMethod()) {
+                $body = $this->request->getParsedBody();
+                $this->logger->debug('body = ' . print_r($body, true));
+
+                $scope = new ScopeEntity();
+                $scope->setIdentifier($body['identifier']);
+                $scope->setDescription($body['description']);
+
+                $scope = $this->scopeAdminRepositoryInterface->updateScope($scope);
+
+                $this->response->withHeader('HX-Redirect', '/admin/scopes')->withStatus(200);
             } else {
                 return $this->twig->render($this->response, 'admin_scopes.html', ['scopes' => $scopes]);
             }
