@@ -11,17 +11,20 @@
 namespace App\Infrastructure\Persistence\Client;
 
 use App\Domain\Client\ClientEntity;
-use League\OAuth2\Server\Repositories\ClientRepositoryInterface;
 use PDO;
+use ClientAdminRepositoryInterface;
+use Psr\Log\LoggerInterface;
 
-class ClientRepository implements ClientRepositoryInterface
+class ClientRepository implements ClientAdminRepositoryInterface
 {
     const CLIENTS_TABLE = 'clients';
 
+    private LoggerInterface $logger;
     private $pdo;
 
-    public function __construct($pdo)
+    public function __construct(LoggerInterface $logger, PDO $pdo)
     {
+        $this->logger = $logger;
         $this->pdo = $pdo;
     }
 
@@ -71,5 +74,30 @@ class ClientRepository implements ClientRepositoryInterface
             }
         }
         return false;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getClients()
+    {
+        $query = 'SELECT * FROM ' . self::CLIENTS_TABLE;
+        $stmt  = $this->pdo->prepare($query);
+        if ($stmt->execute()) {
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return array_map(function ($client) {
+
+                $this->logger->debug('client = ' . print_r($client, true));
+
+                $entity = new ClientEntity();
+                $entity->setIdentifier($client['identifier']);
+                $entity->setName($client['name']);
+                $entity->setRedirectUri($client['redirect_uri']);
+                $entity->setConfidential($client['is_confidential']);
+                return $entity;
+            }, $results);
+        }
+
+        return [];
     }
 }

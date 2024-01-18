@@ -17,7 +17,6 @@ use App\Infrastructure\Persistence\AccessToken\AccessTokenRepository;
 use App\Infrastructure\Persistence\AuthCode\AuthCodeRepository;
 use App\Infrastructure\Persistence\RefreshToken\RefreshTokenRepository;
 use Dotenv\Dotenv;
-use League\OAuth2\Server\Repositories\AccessTokenRepositoryInterface;
 use League\OAuth2\Server\Repositories\ClientRepositoryInterface;
 use League\OAuth2\Server\Repositories\RefreshTokenRepositoryInterface;
 use Slim\Views\Twig;
@@ -26,6 +25,7 @@ use League\OAuth2\Server\Middleware\ResourceServerMiddleware;
 use App\Infrastructure\Persistence\Scope\ScopeAdminRepositoryInterface;
 use App\Infrastructure\Persistence\AccessToken\AccessTokenAdminRepositoryInterface;
 use League\OAuth2\Server\Repositories\AuthCodeRepositoryInterface;
+use App\Infrastructure\Persistence\Client\ClientAdminRepositoryInterface;
 
 
 return function (ContainerBuilder $containerBuilder) {
@@ -55,9 +55,10 @@ return function (ContainerBuilder $containerBuilder) {
             $options  = array();
             return new PDO($server, $user, $password, $options);
         },
-        ClientRepositoryInterface::class => function (ContainerInterface $c) {
+        ClientAdminRepositoryInterface::class => function (ContainerInterface $c) {
             $pdo = $c->get(PDO::class);
-            return new ClientRepository($pdo);
+            $logger = $c->get(LoggerInterface::class);
+            return new ClientRepository($logger, $pdo);
         },
         ScopeAdminRepositoryInterface::class => function (ContainerInterface $c) {
             $pdo = $c->get(PDO::class);
@@ -81,7 +82,7 @@ return function (ContainerBuilder $containerBuilder) {
 
             // Setup the authorization server
             $server = new AuthorizationServer(
-                $c->get(ClientRepositoryInterface::class),
+                $c->get(ClientAdminRepositoryInterface::class),
                 $c->get(AccessTokenAdminRepositoryInterface::class),
                 $c->get(ScopeAdminRepositoryInterface::class),
                 $privateKeyPath,
