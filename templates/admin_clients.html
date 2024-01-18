@@ -32,12 +32,14 @@
                     <label for="clientRedirectUri" class="form-label">Redirect-URI</label>
                     <input type="text" class="form-control" id="clientRedirectUri" name="redirect_uri" required>
                 </div>
-                <div class="col-md-6" form-check>
-                    <input class="form-check-input" type="checkbox" value="" id="clientConfidential" checked
-                        name="is_confidential">
-                    <label class="form-check-label" for="clientConfidential">
-                        Confidential
-                    </label>
+                <div class="col-md-6">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="clientConfidential" checked
+                            name="is_confidential">
+                        <label class="form-check-label" for="clientConfidential">
+                            Confidential
+                        </label>
+                    </div>
                 </div>
                 <div class="col-md-12">
                     <button type="submit" class="btn btn-primary">Create scope</button>
@@ -64,12 +66,14 @@
                     <input type="text" class="form-control" id="clientRedirectUri" name="redirect_uri"
                         value="{{ client.redirectUri }}" readonly>
                 </div>
-                <div class="col-md-6" form-check>
-                    <input class="form-check-input" type="checkbox" value="" id="clientConfidential" checked
-                        name="is_confidential" value="{{ client.confidential }}">
-                    <label class="form-check-label" for="clientConfidential">
-                        Confidential
-                    </label>
+                <div class="col-md-6">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="clientConfidential" checked
+                            name="is_confidential" value="{{ client.confidential }}">
+                        <label class="form-check-label" for="clientConfidential">
+                            Confidential
+                        </label>
+                    </div>
                 </div>
                 <div class="col-md-12">
                     <button class="btn btn-secondary" hx-get="/admin/cliens/{{ client.identifier }}/edit"
