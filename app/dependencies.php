@@ -17,7 +17,6 @@ use App\Infrastructure\Persistence\AccessToken\AccessTokenRepository;
 use App\Infrastructure\Persistence\AuthCode\AuthCodeRepository;
 use App\Infrastructure\Persistence\RefreshToken\RefreshTokenRepository;
 use Dotenv\Dotenv;
-use League\OAuth2\Server\Repositories\ClientRepositoryInterface;
 use League\OAuth2\Server\Repositories\RefreshTokenRepositoryInterface;
 use Slim\Views\Twig;
 use League\OAuth2\Server\ResourceServer;

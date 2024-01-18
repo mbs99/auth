@@ -12,7 +12,7 @@ namespace App\Infrastructure\Persistence\Client;
 
 use App\Domain\Client\ClientEntity;
 use PDO;
-use ClientAdminRepositoryInterface;
+use App\Infrastructure\Persistence\Client\ClientAdminRepositoryInterface;
 use Psr\Log\LoggerInterface;
 
 class ClientRepository implements ClientAdminRepositoryInterface
