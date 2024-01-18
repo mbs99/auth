@@ -24,6 +24,7 @@ use App\Application\Actions\Admin\TokenAdminAction;
 use App\Application\Actions\Admin\ScopeAdminEditAction;
 use App\Application\Actions\Admin\ScopeAdminCancelAction;
 use App\Application\Actions\Admin\ScopeAdminDeleteAction;
+use App\Application\Actions\Admin\ClientAdminAction;
 
 return function (App $app) {
 
@@ -89,4 +90,8 @@ return function (App $app) {
     $app->post('/admin/tokens', TokenAdminAction::class);
 
     $app->delete('/admin/tokens/{id}', TokenAdminAction::class);
+
+    $app->get('/admin/clients', ClientAdminAction::class);
+
+    $app->post('/admin/clients', ClientAdminAction::class);
 };
