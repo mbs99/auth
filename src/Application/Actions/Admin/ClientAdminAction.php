@@ -71,7 +71,7 @@ class ClientAdminAction extends Action
 
                 $this->clientAdminRepositoryInterface->createClient($client);
 
-                return $this->response->withHeader('HX-Redirect', '/admin/scopes')->withStatus(200);
+                return $this->response->withHeader('HX-Redirect', '/admin/clients')->withStatus(200);
             } else {
                 return $this->response->withStatus(415);
             }
