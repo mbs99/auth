@@ -91,7 +91,7 @@ return function (App $app) {
 
     $app->delete('/admin/tokens/{id}', TokenAdminAction::class);
 
-    $app->get('/admin/clients', ClientAdminAction::class);
-
     $app->post('/admin/clients', ClientAdminAction::class);
+
+    $app->get('/admin/clients[/{id}]', ClientAdminAction::class);
 };

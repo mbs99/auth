@@ -32,20 +32,24 @@ class ClientAdminAction extends Action
         $authenticated = isset($_SESSION['oauth2token']);
 
         if ($authenticated) {
-            $clients = $this->clientAdminRepositoryInterface->getClients();
-
-            $this->logger->debug('clients = ' . print_r($clients, true), [ScopeAdminAction::class]);
 
             if ('GET' == $this->request->getMethod()) {
 
                 $queryParams = $this->request->getQueryParams();
 
                 if (is_array($queryParams && 'true' == $queryParams['edit'])) {
-                    return $this->twig->render($this->response, 'admin_clients_edit.html', ['clients' => $clients]);
-                } else if (is_array($queryParams && 'true' == $queryParams['cancel'])) {
-                    return $this->twig->render($this->response, 'admin_clients_cancel.html', ['clients' => $clients]);
-                } else
+                    $id = $this->resolveArg('id');
+                    $client = $this->clientAdminRepositoryInterface->getClientEntity($id);
+                    return $this->twig->render($this->response, 'admin_clients_edit.html', ['client' => $client, 'edit' => true]);
+                } else if (is_array($queryParams && 'false' == $queryParams['edit'])) {
+                    $id = $this->resolveArg('id');
+                    $client = $this->clientAdminRepositoryInterface->getClientEntity($id);
+                    return $this->twig->render($this->response, 'admin_clients_cancel.html', ['client' => $client, 'edit' => false]);
+                } else {
+                    $clients = $this->clientAdminRepositoryInterface->getClients();
+                    $this->logger->debug('clients = ' . print_r($clients, true), [ScopeAdminAction::class]);
                     return $this->twig->render($this->response, 'admin_clients.html', ['clients' => $clients]);
+                }
             } else if ('POST' == $this->request->getMethod()) {
                 $body = $this->request->getParsedBody();
                 $this->logger->debug('body = ' . print_r($body, true), [ScopeAdminAction::class]);
