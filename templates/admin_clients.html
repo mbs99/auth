@@ -18,7 +18,7 @@
         </div>
     </nav>
     <div class="container">
-        <h2>Add scope</h2>
+        <h2>Add client</h2>
         <form hx-post="/admin/clients">
             <div class="row g-3">
                 <div class="col-md-6">
@@ -43,15 +43,15 @@
                     </div>
                 </div>
                 <div class="col-md-12">
-                    <button type="submit" class="btn btn-primary">Create scope</button>
+                    <button type="submit" class="btn btn-primary">Create client</button>
                 </div>
             </div>
         </form>
         {% if clients|length > 0 %}
-        <h2>Edit scopes</h2>
+        <h2>Edit clients</h2>
         {% for client in clients %}
         <form>
-            <div class="row g-3" id="scope-{{ scope.identifier }}">
+            <div class="row g-3" id="client-{{ client.identifier }}">
                 <div class="col-md-6">
                     <label for="clientIdentifier" class="form-label">Identifier</label>
                     <input type="text" class="form-control" id="clientIdentifier" name="identifier"
@@ -78,11 +78,11 @@
                 </div>
                 <div class="col-md-12">
                     <button class="btn btn-secondary" hx-get="/admin/cliens/{{ client.identifier }}/edit"
-                        hx-target="#scope-{{ client.identifier }}" hx-swap="innerHTML">
+                        hx-target="#client-{{ client.identifier }}" hx-swap="innerHTML">
                         Edit
                     </button>
                     <button class="btn btn-secondary" hx-delete="/admin/clients/{{ client.identifier }}"
-                        hx-target="#scope-{{ client.identifier }}" hx-swap="outerHTML">
+                        hx-target="#client-{{ client.identifier }}" hx-swap="outerHTML">
                         Delete
                     </button>
                 </div>
