@@ -35,7 +35,7 @@
     {% else %}
     <button class="btn btn-secondary" hx-get="/admin/clients/{{ client.identifier }}?edit=true"
         hx-target="#client-{{ client.identifier }}" hx-swap="innerHTML">
-        Cancel
+        Edit
     </button>
     <button class="btn btn-secondary" hx-delete="/admin/clients/{{ client.identifier }}"
         hx-target="#client-{{ client.identifier }}" hx-swap="outerHTML">
