@@ -37,7 +37,15 @@ class ClientAdminAction extends Action
             $this->logger->debug('clients = ' . print_r($clients, true), [ScopeAdminAction::class]);
 
             if ('GET' == $this->request->getMethod()) {
-                return $this->twig->render($this->response, 'admin_clients.html', ['clients' => $clients]);
+
+                $queryParams = $this->request->getQueryParams();
+                if (is_array($queryParams && 'true' == $queryParams['edit'])) {
+                    return $this->twig->render($this->response, 'admin_clients_edit.html', ['clients' => $clients]);
+                } else if (is_array($queryParams && 'true' == $queryParams['cancel'])) {
+                    return $this->twig->render($this->response, 'admin_clients_cancel.html', ['clients' => $clients]);
+                } else
+                    return $this->twig->render($this->response, 'admin_clients.html', ['clients' => $clients]);
+                }
             } else if ('POST' == $this->request->getMethod()) {
                 $body = $this->request->getParsedBody();
                 $this->logger->debug('body = ' . print_r($body, true), [ScopeAdminAction::class]);
