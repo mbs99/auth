@@ -38,18 +38,14 @@ class ClientAdminAction extends Action
                 $queryParams = $this->request->getQueryParams();
                 $this->logger->debug('query = ' . print_r($queryParams, true), [$this::class]);
 
-                if (is_array($queryParams) && 'true' == $queryParams['edit']) {
+                $editMode = is_array($queryParams) && array_key_exists('edit', $queryParams) && 'true' == $queryParams['edit'];
+
+                if ($editMode) {
                     $id = $this->resolveArg('id');
                     $client = $this->clientAdminRepositoryInterface->getClientEntity($id);
                     $this->logger->debug('client = ' . print_r($client, true), [$this::class]);
                     $this->logger->debug('edit = true');
                     return $this->twig->render($this->response, 'admin_clients_edit.html', ['client' => $client, 'edit' => true]);
-                } else if (is_array($queryParams) && 'false' == $queryParams['edit']) {
-                    $id = $this->resolveArg('id');
-                    $client = $this->clientAdminRepositoryInterface->getClientEntity($id);
-                    $this->logger->debug('client = ' . print_r($client, true), [$this::class]);
-                    $this->logger->debug('edit = false');
-                    return $this->twig->render($this->response, 'admin_clients_edit.html', ['client' => $client, 'edit' => false]);
                 } else {
                     $clients = $this->clientAdminRepositoryInterface->getClients();
                     $this->logger->debug('clients = ' . print_r($clients, true), [$this::class]);
