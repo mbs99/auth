@@ -36,23 +36,26 @@ class ClientAdminAction extends Action
             if ('GET' == $this->request->getMethod()) {
 
                 $queryParams = $this->request->getQueryParams();
+                $this->logger->debug('query = ' . print_r($queryParams, true), [$this::class]);
 
                 if (is_array($queryParams && 'true' == $queryParams['edit'])) {
                     $id = $this->resolveArg('id');
                     $client = $this->clientAdminRepositoryInterface->getClientEntity($id);
+                    $this->logger->debug('client = ' . print_r($client, true), [$this::class]);
                     return $this->twig->render($this->response, 'admin_clients_edit.html', ['client' => $client, 'edit' => true]);
                 } else if (is_array($queryParams && 'false' == $queryParams['edit'])) {
                     $id = $this->resolveArg('id');
                     $client = $this->clientAdminRepositoryInterface->getClientEntity($id);
-                    return $this->twig->render($this->response, 'admin_clients_cancel.html', ['client' => $client, 'edit' => false]);
+                    $this->logger->debug('client = ' . print_r($client, true), [$this::class]);
+                    return $this->twig->render($this->response, 'admin_clients_edit.html', ['client' => $client, 'edit' => false]);
                 } else {
                     $clients = $this->clientAdminRepositoryInterface->getClients();
-                    $this->logger->debug('clients = ' . print_r($clients, true), [ScopeAdminAction::class]);
+                    $this->logger->debug('clients = ' . print_r($clients, true), [$this::class]);
                     return $this->twig->render($this->response, 'admin_clients.html', ['clients' => $clients]);
                 }
             } else if ('POST' == $this->request->getMethod()) {
                 $body = $this->request->getParsedBody();
-                $this->logger->debug('body = ' . print_r($body, true), [ScopeAdminAction::class]);
+                $this->logger->debug('body = ' . print_r($body, true), [$this::class]);
 
                 $client = new ClientEntity();
                 $client->setIdentifier($body['identifier']);
