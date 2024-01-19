@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Persistence\Client;
 
+use App\Domain\Client\ClientEntity;
 use League\OAuth2\Server\Repositories\ClientRepositoryInterface;
 
 /**
@@ -18,4 +19,12 @@ interface ClientAdminRepositoryInterface extends ClientRepositoryInterface
      * @return ClientEntity[]
      */
     public function getClients();
+
+    /**
+     * Create client.
+     *
+     *
+     * @return ClientEntity[]
+     */
+    public function createClient(ClientEntity $clientEntity);
 }

@@ -65,9 +65,11 @@ class ClientAdminAction extends Action
 
                 $client = new ClientEntity();
                 $client->setIdentifier($body['identifier']);
-                $client->setConfidential($body['is_confodential']);
+                $client->setConfidential(array_key_exists('is_confodential', $body));
                 $client->setRedirectUri($body['redrect_uri']);
                 $client->setName($body['name']);
+
+                $this->clientAdminRepositoryInterface->createClient($client);
 
                 return $this->response->withHeader('HX-Redirect', '/admin/scopes')->withStatus(200);
             } else {

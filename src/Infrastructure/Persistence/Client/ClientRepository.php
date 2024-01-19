@@ -100,4 +100,24 @@ class ClientRepository implements ClientAdminRepositoryInterface
 
         return [];
     }
+
+    /**
+     * Create client.
+     *
+     *
+     * @return ClientEntity[]
+     */
+    public function createClient(ClientEntity $client)
+    {
+        $this->logger->debug('clienteToCreate= ' . print_r($client, true));
+
+        $query = 'INSERT INTO ' . self::CLIENTS_TABLE . ' (id, identifier, name, redirect_uri, is_confidential) VALUES (?, ?, ?, ?, ?)';
+        $stmt  = $this->pdo->prepare($query);
+        if ($stmt->execute([null, $client->getIdentifier(), $client->getName(), $client->getRedirectUri(), $client->isConfidential()])) {
+
+            $this->logger->debug('added rows = ' . $stmt->rowCount());
+
+            return $client;
+        }
+    }
 }
