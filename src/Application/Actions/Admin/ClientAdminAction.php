@@ -65,8 +65,8 @@ class ClientAdminAction extends Action
 
                 $client = new ClientEntity();
                 $client->setIdentifier($body['identifier']);
-                $client->setConfidential(array_key_exists('is_confodential', $body));
-                $client->setRedirectUri($body['redrect_uri']);
+                $client->setConfidential(array_key_exists('is_confidential', $body));
+                $client->setRedirectUri($body['redirect_uri']);
                 $client->setName($body['name']);
 
                 $this->clientAdminRepositoryInterface->createClient($client);
