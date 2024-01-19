@@ -17,10 +17,8 @@
             </button>
         </div>
     </nav>
-    <div class="container">
-        <div class="row gy-3">
-            <h2>Add client</h2>
-        </div>
+    <div class="container row-gap-3">
+        <h2>Add client</h2>
         <form hx-post="/admin/clients">
             <div class="row g-3">
                 <div class="col-md-6">
@@ -50,9 +48,7 @@
             </div>
         </form>
         {% if clients|length > 0 %}
-        <div class="row gy-3">
-            <h2>Edit clients</h2>
-        </div>
+        <h2>Edit clients</h2>
         {% for client in clients %}
         <form>
             <div class="row g-3" id="client-{{ client.identifier }}">
