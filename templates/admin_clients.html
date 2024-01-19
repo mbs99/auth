@@ -77,7 +77,7 @@
                     </div>
                 </div>
                 <div class="col-md-12">
-                    <button class="btn btn-secondary" hx-get="/admin/cliens/{{ client.identifier }}/edit"
+                    <button class="btn btn-secondary" hx-get="/admin/cliens/{{ client.identifier }}?edit=true"
                         hx-target="#client-{{ client.identifier }}" hx-swap="innerHTML">
                         Edit
                     </button>
