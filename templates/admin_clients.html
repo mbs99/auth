@@ -50,41 +50,45 @@
             <h2>Edit clients</h2>
         </div>
         {% for client in clients %}
-        <form class="row g-3" id="client-{{ client.identifier }}">
-            <div class="col-md-6">
-                <label for="clientIdentifier" class="form-label">Identifier</label>
-                <input type="text" class="form-control" id="clientIdentifier" name="identifier"
-                    value="{{ client.identifier }}" readonly>
-            </div>
-            <div class="col-md-6">
-                <label for="clientName" class="form-label">Name</label>
-                <input type="text" class="form-control" id="clientName" name="name" value="{{ client.name }}" readonly>
-            </div>
-            <div class="col-md-6">
-                <label for="clientRedirectUri" class="form-label">Redirect-URI</label>
-                <input type="text" class="form-control" id="clientRedirectUri" name="redirect_uri"
-                    value="{{ client.redirectUri }}" readonly>
-            </div>
-            <div class="col-md-6">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="clientConfidential" checked
-                        name="is_confidential" value="{{ client.confidential }}">
-                    <label class="form-check-label" for="clientConfidential">
-                        Confidential
-                    </label>
+        <fieldset class="border p-2">
+            <legend class="w-auto">{{ client.name }}</legend>
+            <form class="row g-3" id="client-{{ client.identifier }}">
+                <div class="col-md-6">
+                    <label for="clientIdentifier" class="form-label">Identifier</label>
+                    <input type="text" class="form-control" id="clientIdentifier" name="identifier"
+                        value="{{ client.identifier }}" readonly>
                 </div>
-            </div>
-            <div class="col-md-12">
-                <button class="btn btn-secondary" hx-get="/admin/clients/{{ client.identifier }}?edit=true"
-                    hx-target="#client-{{ client.identifier }}" hx-swap="innerHTML">
-                    Edit
-                </button>
-                <button class="btn btn-secondary" hx-delete="/admin/clients/{{ client.identifier }}"
-                    hx-target="#client-{{ client.identifier }}" hx-swap="outerHTML">
-                    Delete
-                </button>
-            </div>
-        </form>
+                <div class="col-md-6">
+                    <label for="clientName" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="clientName" name="name" value="{{ client.name }}"
+                        readonly>
+                </div>
+                <div class="col-md-6">
+                    <label for="clientRedirectUri" class="form-label">Redirect-URI</label>
+                    <input type="text" class="form-control" id="clientRedirectUri" name="redirect_uri"
+                        value="{{ client.redirectUri }}" readonly>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="clientConfidential" checked
+                            name="is_confidential" value="{{ client.confidential }}">
+                        <label class="form-check-label" for="clientConfidential">
+                            Confidential
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <button class="btn btn-secondary" hx-get="/admin/clients/{{ client.identifier }}?edit=true"
+                        hx-target="#client-{{ client.identifier }}" hx-swap="innerHTML">
+                        Edit
+                    </button>
+                    <button class="btn btn-secondary" hx-delete="/admin/clients/{{ client.identifier }}"
+                        hx-target="#client-{{ client.identifier }}" hx-swap="outerHTML">
+                        Delete
+                    </button>
+                </div>
+            </form>
+        </fieldset>
         {% endfor %}
         {% endif %}
     </div>
