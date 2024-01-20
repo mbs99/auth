@@ -17,17 +17,15 @@
             </button>
             <div class="collapse navbar-collapse" id="authNavContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        {% if is_authenticated %}
-                        <a class="nav-link" aria-current="page" href="/admin/clients">Clients</a>
-                        <a class="nav-link" aria-current="page" href="/admin/users">Users</a>
-                        <a class="nav-link" aria-current="page" href="/admin/scopes">Scopes</a>
-                        <a class="nav-link" aria-current="page" href="/admin/tokens">Tokens</a>
-                        <a class="nav-link" aria-current="page" href="/logout">Logout</a>
-                        {% else %}
-                        <a class="nav-link" aria-current="page" href="/auth-code">Admin-Login</a>
-                        {% endif %}
-                    </li>
+                    {% if is_authenticated %}
+                    <a class="nav-link" aria-current="page" href="/admin/clients">Clients</a>
+                    <a class="nav-link" aria-current="page" href="/admin/users">Users</a>
+                    <a class="nav-link" aria-current="page" href="/admin/scopes">Scopes</a>
+                    <a class="nav-link" aria-current="page" href="/admin/tokens">Tokens</a>
+                    <a class="nav-link" aria-current="page" href="/logout">Logout</a>
+                    {% else %}
+                    <a class="nav-link" aria-current="page" href="/auth-code">Admin-Login</a>
+                    {% endif %}
                 </ul>
             </div>
         </div>
