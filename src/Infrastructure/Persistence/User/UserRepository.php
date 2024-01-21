@@ -67,7 +67,7 @@ class UserRepository implements UserAdminRepositoryInterface
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return array_map(function ($result) {
 
-                $this->logger->debug('user = ' . print_r($result, true));
+                $this->logger->debug('user = ' . print_r($result, true), [$this::class]);
 
                 $entity = new UserEntity('' . $result['id']);
                 $entity->setUsername($result['username']);

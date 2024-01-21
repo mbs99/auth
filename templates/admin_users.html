@@ -61,7 +61,7 @@
                 </div>
                 <div class="col-md-12">
                     <button class="btn btn-secondary" hx-get="/admin/users/{{ user.username }}?edit=true"
-                        hx-target="#user-{{ client.identifier }}" hx-swap="innerHTML">
+                        hx-target="#user-{{ user.username }}" hx-swap="innerHTML">
                         Edit
                     </button>
                     <button class="btn btn-secondary" hx-delete="/admin/users/{{ user.username }}"
