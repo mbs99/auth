@@ -25,6 +25,7 @@
         "php": "^8.0",
         "ext-json": "*",
         "defuse/php-encryption": "^2.2.1",
+        "illuminate/database": "^10.41",
         "laminas/laminas-diactoros": "^2.24",
         "lcobucci/jwt": "^3.4.6 || ^4.0.4",
         "league/event": "^2.2",

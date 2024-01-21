@@ -13,8 +13,12 @@ use League\OAuth2\Server\Grant\AuthCodeGrant;
 use App\Domain\Scope\ScopeRepository;
 use App\Domain\AccessToken\AccessTokenRepository;
 use App\Domain\RefreshToken\RefreshTokenRepository;
+use Dotenv\Dotenv;
 
 return function (ContainerBuilder $containerBuilder) {
+
+    $dotenv = Dotenv::createImmutable(__DIR__ . '/../');
+    $dotenv->load();
 
     // Global Settings Object
     $containerBuilder->addDefinitions([
@@ -29,6 +33,16 @@ return function (ContainerBuilder $containerBuilder) {
                     'path' => isset($_ENV['docker']) ? 'php://stdout' : __DIR__ . '/../logs/app.log',
                     'level' => Logger::DEBUG,
                 ],
+                'db' => [
+                    'driver' => $_ENV["DB_DRIVER"],
+                    'host' => $_ENV["DB_HOST"],
+                    'database' => $_ENV["DB_NAME"],
+                    'username' => $_ENV["DB_USER"],
+                    'password' => $_ENV["DB_PASSWORD"],
+                    'charset'   => 'utf8',
+                    'collation' => 'utf8_unicode_ci',
+                    'prefix'    => '',
+                ]
             ]);
         }
     ]);
