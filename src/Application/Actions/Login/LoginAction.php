@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Application\Actions\Login;
 
 use App\Application\Actions\Action;
-use League\OAuth2\Server\Repositories\UserRepositoryInterface;
+use App\Infrastructure\Persistence\User\UserAdminRepositoryInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Log\LoggerInterface;
@@ -14,12 +14,12 @@ use Slim\Views\Twig;
 class LoginAction extends Action
 {
     private Twig $twig;
-    private UserRepositoryInterface $userRepo;
+    private UserAdminRepositoryInterface $userRepo;
 
     public function __construct(
         LoggerInterface $logger,
         ContainerInterface $container,
-        UserRepositoryInterface $userRepo
+        UserAdminRepositoryInterface $userRepo
     ) {
         parent::__construct($logger);
         $this->twig = $container->get('view');

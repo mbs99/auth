@@ -17,7 +17,7 @@ use Psr\Log\LoggerInterface;
 
 class ClientRepository implements ClientAdminRepositoryInterface
 {
-    const CLIENTS_TABLE = 'clients';
+    public static const CLIENTS_TABLE = 'clients';
 
     private LoggerInterface $logger;
     private $pdo;
