@@ -14,7 +14,7 @@
         {% for client in clients %}
         <option value="{{ client.identifier }}">{{ client.identifier }}</option>
         {% endfor %}
-    </select {% if edit==true %} required {% else %} readonly {% endif %}>
+    </select {% if edit==true %} required {% else %} disabled {% endif %}>
 </div>
 <div class="col-md-12">
     {% if edit==true %}
