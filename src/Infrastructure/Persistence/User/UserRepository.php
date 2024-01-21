@@ -119,6 +119,9 @@ class UserRepository implements UserAdminRepositoryInterface
         $query = 'SELECT ' . self::TABLE . '.*, ' . ClientRepository::CLIENTS_TABLE . '.identifier AS client_identifier FROM '
             . self::TABLE . ' LEFT JOIN ' . ClientRepository::CLIENTS_TABLE . ' ON ' . self::TABLE . '.client_id = ' . ClientRepository::CLIENTS_TABLE . '.id'
             . ' where ' . ClientRepository::CLIENTS_TABLE . '.id = ' . $id;
+
+        $this->logger->debug('query = ' . $query);
+
         $stmt  = $this->pdo->prepare($query);
         if ($stmt->execute()) {
 
