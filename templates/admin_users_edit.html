@@ -10,11 +10,12 @@
 </div>
 <div class="col-md-6">
     <label for="client" class="form-label">Client</label>
-    <select class="form-select" aria-label="Default select example" id="client" name="client">
+    <select class="form-select" aria-label="Default select example" id="client" name="client" {% if edit==true %}
+        required {% else %} disabled {% endif %}>
         {% for client in clients %}
         <option value="{{ client.identifier }}">{{ client.identifier }}</option>
         {% endfor %}
-    </select {% if edit==true %} required {% else %} disabled {% endif %}>
+    </select>
 </div>
 <div class="col-md-12">
     {% if edit==true %}
