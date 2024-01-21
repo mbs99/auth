@@ -29,7 +29,7 @@
                 <input type="password" class="form-control" id="password" name="password" required>
             </div>
             <div class="col-md-6">
-                <label for="client" class="form-label">Password</label>
+                <label for="client" class="form-label">Client</label>
                 <select class="form-select" aria-label="Default select example" id="client" name="client">
                     {% for client in clients %}
                     <option value="{{ client.identifier }}">{{ client.identifier }}</option>
@@ -57,6 +57,14 @@
                     <label for="editPassword" class="form-label">password</label>
                     <input type="password" class="form-control" id="editPassword" name="password"
                         value="{{ user.password }}" readonly>
+                </div>
+                <div class="col-md-6">
+                    <label for="client" class="form-label">Client</label>
+                    <select class="form-select" aria-label="Default select example" id="client" name="client">
+                        {% for client in clients %}
+                        <option value="{{ client.identifier }}">{{ client.identifier }}</option>
+                        {% endfor %}
+                    </select>
                 </div>
                 <div class="col-md-12">
                     <button class="btn btn-secondary" hx-get="/admin/users/{{ user.username }}?edit=true"
