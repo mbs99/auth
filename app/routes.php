@@ -25,6 +25,7 @@ use App\Application\Actions\Admin\ScopeAdminEditAction;
 use App\Application\Actions\Admin\ScopeAdminCancelAction;
 use App\Application\Actions\Admin\ScopeAdminDeleteAction;
 use App\Application\Actions\Admin\ClientAdminAction;
+use App\Application\Actions\Admin\UserAdminAction;
 
 return function (App $app) {
 
@@ -94,4 +95,10 @@ return function (App $app) {
     $app->post('/admin/clients', ClientAdminAction::class);
 
     $app->get('/admin/clients[/{id}]', ClientAdminAction::class);
+
+    $app->post('/admin/users', UserAdminAction::class);
+
+    $app->get('/admin/users[/{id}]', UserAdminAction::class);
+
+    $app->put('/admin/users/{id}', UserAdminAction::class);
 };
