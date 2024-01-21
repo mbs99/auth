@@ -18,7 +18,7 @@ use Psr\Log\LoggerInterface;
 
 class ScopeRepository implements ScopeAdminRepositoryInterface
 {
-    private const SCOPES_TABLE = 'scopes';
+    const SCOPES_TABLE = 'scopes';
 
     private LoggerInterface $logger;
     private PDO $pdo;

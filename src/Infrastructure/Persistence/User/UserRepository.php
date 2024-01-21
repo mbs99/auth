@@ -14,7 +14,7 @@ use App\Infrastructure\Persistence\Client\ClientRepository;
 
 class UserRepository implements UserAdminRepositoryInterface
 {
-    public static const TABLE = 'users';
+    const TABLE = 'users';
 
     private LoggerInterface $logger;
     private PDO $pdo;
