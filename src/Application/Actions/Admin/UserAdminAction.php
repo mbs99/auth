@@ -12,17 +12,21 @@ use Slim\Views\Twig;
 use App\Infrastructure\Persistence\User\UserAdminRepositoryInterface;
 use App\Domain\Client\ClientEntity;
 use App\Domain\User\UserEntity;
+use App\Infrastructure\Persistence\Client\ClientAdminRepositoryInterface;
+
 
 class UserAdminAction extends Action
 {
     private Twig $twig;
     private UserAdminRepositoryInterface $userAdminRepositoryInterface;
+    private ClientAdminRepositoryInterface $clientAdminRepositoryInterface;
 
     public function __construct(LoggerInterface $logger, ContainerInterface $container)
     {
         parent::__construct($logger);
         $this->twig = $container->get('view');
         $this->userAdminRepositoryInterface = $container->get(UserAdminRepositoryInterface::class);
+        $this->clientAdminRepositoryInterface = $container->get(ClientAdminRepositoryInterface::class);
     }
 
     /**
@@ -33,6 +37,8 @@ class UserAdminAction extends Action
         $authenticated = isset($_SESSION['oauth2token']);
 
         if ($authenticated) {
+
+            $clients = $this->clientAdminRepositoryInterface->getClients();
 
             if ('GET' == $this->request->getMethod()) {
 
@@ -47,18 +53,18 @@ class UserAdminAction extends Action
                         $user = $this->userAdminRepositoryInterface->getUser($id);
                         $this->logger->debug('user = ' . print_r($user, true), [$this::class]);
                         $this->logger->debug('edit = true');
-                        return $this->twig->render($this->response, 'admin_users_edit.html', ['user' => $user, 'edit' => true]);
+                        return $this->twig->render($this->response, 'admin_users_edit.html', ['user' => $user, 'edit' => true, 'clients' => $clients]);
                     } else {
                         $id = $this->resolveArg('id');
                         $user = $this->userAdminRepositoryInterface->getUser($id);
                         $this->logger->debug('user = ' . print_r($user, true), [$this::class]);
                         $this->logger->debug('edit = false');
-                        return $this->twig->render($this->response, 'admin_users_edit.html', ['user' => $user, 'edit' => false]);
+                        return $this->twig->render($this->response, 'admin_users_edit.html', ['user' => $user, 'edit' => false, 'clients' => $clients]);
                     }
                 } else {
                     $users = $this->userAdminRepositoryInterface->getUsers();
                     $this->logger->debug('users = ' . print_r($users, true), [$this::class]);
-                    return $this->twig->render($this->response, 'admin_users.html', ['users' => $users]);
+                    return $this->twig->render($this->response, 'admin_users.html', ['users' => $users, 'clients' => $clients]);
                 }
             } else if ('POST' == $this->request->getMethod()) {
                 $body = $this->request->getParsedBody();
