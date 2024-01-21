@@ -11,7 +11,7 @@ class UserEntity implements UserEntityInterface
 {
     private string $identifier;
     private string $username;
-    private string $password;
+    private string $password = '***';
     private ClientEntity $client;
 
     public function __construct($identifier)
