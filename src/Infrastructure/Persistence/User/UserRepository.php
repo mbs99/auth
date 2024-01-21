@@ -130,7 +130,7 @@ class UserRepository implements UserAdminRepositoryInterface
             $this->logger->debug('user = ' . print_r($result, true));
 
             $entity = new UserEntity('' . $result['id']);
-            $entity->setUsername($result['namename']);
+            $entity->setUsername($result['username']);
             $clientEntity = new ClientEntity();
             $clientEntity->setIdentifier($result['client_identifier']);
             $entity->setClient($clientEntity);
