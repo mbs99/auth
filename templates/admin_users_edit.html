@@ -1,10 +1,12 @@
 <div class="col-md-6">
     <label for="editUsername" class="form-label">Username</label>
-    <input type="text" class="form-control" id="editUsername" name="username" value="{{ user.username }}" required>
+    <input type="text" class="form-control" id="editUsername" name="username" value="{{ user.username }}" {% if
+        edit==true %} required {% else %} readonly {% endif %}>
 </div>
 <div class="col-md-6">
     <label for="editPassword" class="form-label">password</label>
-    <input type="password" class="form-control" id="editPassword" name="password" value="{{ user.password }}" required>
+    <input type="password" class="form-control" id="editPassword" name="password" value="{{ user.password }}" {% if
+        edit==true %} required {% else %} readonly {% endif %}>
 </div>
 <div class="col-md-6">
     <label for="client" class="form-label">Client</label>
@@ -12,7 +14,7 @@
         {% for client in clients %}
         <option value="{{ client.identifier }}">{{ client.identifier }}</option>
         {% endfor %}
-    </select>
+    </select {% if edit==true %} required {% else %} readonly {% endif %}>
 </div>
 <div class="col-md-12">
     {% if edit==true %}
