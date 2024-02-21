@@ -10,20 +10,20 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Log\LoggerInterface;
 use Slim\Views\Twig;
 use App\Infrastructure\Persistence\AccessToken\AccessTokenAdminRepositoryInterface;
-use League\OAuth2\Server\Repositories\UserRepositoryInterface;
+use App\Infrastructure\Persistence\User\UserAdminRepositoryInterface;
 
 class TokenAdminAction extends Action
 {
     private Twig $twig;
     private AccessTokenAdminRepositoryInterface $accessTokenAdminRepositoryInterface;
-    private UserRepositoryInterface $userRepositoryInterface;
+    private UserAdminRepositoryInterface $userRepositoryInterface;
 
     public function __construct(LoggerInterface $logger, ContainerInterface $container)
     {
         parent::__construct($logger);
         $this->twig = $container->get('view');
         $this->accessTokenAdminRepositoryInterface = $container->get(AccessTokenAdminRepositoryInterface::class);
-        $this->userRepositoryInterface = $container->get(UserRepositoryInterface::class);
+        $this->userRepositoryInterface = $container->get(UserAdminRepositoryInterface::class);
     }
 
     /**
